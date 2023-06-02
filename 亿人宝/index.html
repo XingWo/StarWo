@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>亿人宝首页布局作业</title>
+		<link rel="stylesheet" href="../js/layui-v2.6.8/layui/css/layui.css" media="all">
+		<link rel="stylesheet" type="text/css" href="css/animate.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/laji.css"/>
+		<script type="text/javascript" src="../js/jquery.js"></script>
+		<script src="../js/layer/layer.js"></script>
+	</head>
+	<body>
+		<div id="zd" style="display: none;z-index: 5;">
+			<a class="zd" href="#top">
+				<i>⩓</i><i>⩓</i><i>⩓</i>
+				<span alt="回到顶部">回顶部</span>
+			</a>
+		</div>
+		<script>
+			window.addEventListener("scroll",backtop)
+			function backtop(){
+				var oTop = document.body.scrollTop||document.documentElement.scrollTop;
+				var zd=document.getElementById("zd");
+				if(oTop>=500){
+					zd.style.display="block";
+				}else{
+					zd.style.display="none";
+				}
+			}
+		</script>
+		<div class="ands">
+			<div class="top1" id="top">
+				<div class="zixun">
+					<a id="zixun">咨询热线：400-668-6698</a>
+					<a id="zixun">服务时间：9:00-18:00</a>
+					<a class="wxzx"></a>
+					<a class="qqzx"></a>
+					<a class="wbzx"></a>
+				</div>
+				<div class="denglu">
+					<div class="denglunr denglunr1">
+						<a>返回首页</a>
+					</div>
+					<div class="denglunr">
+						<a>免费注册</a>
+					</div>
+					<div class="denglunr">
+						<a>登录</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ands2">
+			<div class="top2">
+				<div class="logo"></div>
+				<div class="zhuye">
+					<a>首页</a>
+					<a>我要投资</a>
+					<a>安全保障</a>
+					<a>我的账户</a>
+					<a>关于我们</a>
+				</div>
+			</div>
+		</div>
+		<div class="top3">
+			<div class="layui-carousel" id="test1">
+			  <div carousel-item>
+				<div class="banner ban0"></div>
+				<div class="banner ban1"></div>
+				<div class="banner ban2"></div>
+				<div class="banner ban3"></div>
+				<div class="banner ban4"></div>
+			  </div>
+			</div>
+			<!-- 条目中可以是任意内容，如：<img src=""> -->
+			 
+			<script src="../js/layui-v2.6.8/layui/layui.js"></script>
+			<script>
+			layui.use('carousel', function(){
+			  var carousel = layui.carousel;
+			  //建造实例
+			  carousel.render({
+			    elem: '#test1'
+			    ,width: '100%' //设置容器宽度
+				,height:'360px'
+			    ,arrow: 'hover' //始终显示箭头
+			    ,anim: 'fade' //切换动画方式
+				,interval:'5000'
+			  });
+			});
+			</script>
+			<!-- <div class="banners">
+				<div class="banner ban0"></div>
+				<div class="banner ban1"></div>
+				<div class="banner ban2"></div>
+				<div class="banner ban3"></div>
+				<div class="banner ban4"></div>
+			</div>
+			<div class="bannerzt">
+				<a class="banzt banzt0" onclick="btns(0)"></a>
+				<a class="banzt banzt1" onclick="btns(1)"></a>
+				<a class="banzt banzt2" onclick="btns(2)"></a>
+				<a class="banzt banzt3" onclick="btns(3)"></a>
+				<a class="banzt banzt4" onclick="btns(4)"></a>
+			</div> -->
+		</div>
+		<div class="nrands">
+			<div class="ands3">
+				<div class="gonggao">
+					<div class="ggnr">
+						<a>最新公告</a>
+					</div>
+					<div class="ggnrs">
+						<div class="ggnrand">
+							<a>2015年9月8日还款公告</a>
+							<a>2016年9月9日还款公告</a>
+							<a>2017年9月10日还款公告</a>
+							<a>2018年9月11日还款公告</a>
+							<a>2019年9月12日还款公告</a>
+							<a>2020年9月13日还款公告</a>
+							<a>2021年9月14日还款公告</a>
+							<a>2022年9月15日还款公告</a>
+							<a>舍友欠款详细</a>
+						</div>
+					</div>
+					<div class="gggd">
+						<a>更多</a>
+					</div>
+				</div>
+				<div class="zijin">
+					<p>累计投资金额:<span class="zijinshue counter">1,047,288,128.79</span>元</p>
+					<p>已还本息:<span class="zijinshue counter">400,507,750.81</span>元</p>
+					<p>余额:<span class="zijinshue counter">677,679,983.07</span>元</p>
+					<p>注册人数:<span class="zijinshue counter">20649</span>人</p>
+				</div>
+				<div class="jiesao">
+					<div class="jsnr">
+						<img src="img/index_icon1.png"/>
+						<div class="jiesaonr">
+							<p>高收益</p>
+							<span>年化收益率最高达"20%"</span>
+							<span>50元起投，助您轻松获收益</span>
+						</div>
+					</div>
+					<div class="jsnr">
+						<img src="img/index_icon2.png"/>
+						<div class="jiesaonr">
+							<p>安全理财</p>
+							<span>100%本息保障</span>
+							<span>实物质押，多重风控审核</span>
+						</div>
+					</div>
+					<div class="jsnr">
+						<img src="img/index_icon3.png"/>
+						<div class="jiesaonr">
+							<p>随时赎回</p>
+							<span>两步赎回您的资金</span>
+							<span>最快当日到账</span>
+						</div>
+					</div>
+					<div class="jsnr">
+						<img src="img/index_icon4.png"/>
+						<div class="jiesaonr">
+							<p>随时随地理财</p>
+							<span>下载手机客户端</span>
+							<span>随时随地轻松理财</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ands4">
+				<div class="xiangmu">
+					<div class="xiangmu1">
+						<div class="xmnr1">
+							<div class="sprite">
+								<div class="sprite1"></div>
+								<p>推荐项目</p>
+							</div>
+							<p id="p2">常规发标时同每天10:00，13:00和20:00，其余时间根据需要随机发</p>
+						</div>
+						<div class="xmnr2">
+							<p>期限1-29天，期限短，收益见效快</p>
+							<a>查看更多>></a>
+						</div>
+						<div class="xmnr3 xmnr3s">
+							<div class="xmnr3-1">
+								<div class="xmnrimg xmnrimg1">
+									<p>债</p>
+								</div>
+								<p>金女士债权质抨借款1万元</p>
+							</div>
+							<div class="xmnr3-2">
+								<p id="nr2">借款金额<span class="nr1">10000.00</span>元</p>
+								<div class="xmnrnr1">
+									<p id="nr1">年利率<span class="nr1">10.70%</span></p>
+									<p id="nr2">期限<span class="nr3"> 4 </span>天</p>
+									<div class="jindu jindu2">56.3%</div>
+									<div class="zhuangtai"><a>还款中</a></div>
+									
+								</div>
+							</div>
+						</div>
+						<div class="xmnr3">
+							<div class="xmnr3-1">
+								<div class="xmnrimg xmnrimg1">
+									<p>债</p>
+								</div>
+								<p>周周先生情权择款0.1万元</p>
+							</div>
+							<div class="xmnr3-2">
+								<p id="nr2">借款金额<span class="nr1">1000.00</span>元</p>
+								<div class="xmnrnr1">
+									<p id="nr1">年利率<span class="nr1">10.85%</span></p>
+									<p id="nr2">期限<span class="nr3"> 7 </span>天</p>
+									<div class="jindu jindu3">10.07%</div>
+									<div class="zhuangtai"><a>还款中</a></div>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="xiangmu1">
+						<div class="xmnr1">
+							<div class="sprite">
+								<div class="sprite2"></div>
+								<p>政信贷</p>
+							</div>
+							<p id="p2">参与人次:61.37万次 平均满标时间:1小时24分11秒</p>
+						</div>
+						<div class="xmnr2">
+							<p>期限1-12月，收益更高</p>
+							<a>查看更多>></a>
+						</div>
+						<div class="xmnr3 xmnr3s">
+							<div class="xmnr3-1">
+								<div class="xmnrimg xmnrimg2">
+									<p>车</p>
+								</div>
+								<p>毕先生宝马320汽车质押贷款10万元</p>
+							</div>
+							<div class="xmnr3-2">
+								<p id="nr2">借款金额<span class="nr1">100000.00</span>元</p>
+								<div class="xmnrnr1">
+									<p id="nr1">年利率<span class="nr3">12.00%</span></p>
+									<p id="nr2">期限<span class="nr1"> 1 </span>个月</p>
+									<div class="jindu jindu1">100%</div>
+									<div class="zhuangtai"><a>还款中</a></div>
+								</div>
+							</div>
+						</div>
+						<div class="xmnr3">
+							<div class="xmnr3-1">
+								<div class="xmnrimg xmnrimg2">
+									<p>车</p>
+								</div>
+								<p>王先生克革斯勒300C汽车质押贷款15万元</p>
+							</div>
+							<div class="xmnr3-2">
+								<p id="nr2">借款金额<span class="nr1">150000.00</span>元</p>
+								<div class="xmnrnr1">
+									<p id="nr1">年利率<span class="nr3">12.00%</span></p>
+									<p id="nr2">期限<span class="nr1"> 1 </span>个月</p>
+									<div class="jindu jindu1">100%</div>
+									<div class="zhuangtai"><a>还款中</a></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="xiangmu1">
+						<div class="xmnr1">
+							<div class="sprite">
+								<div class="sprite3"></div>
+								<p>实时变现</p>
+							</div>
+							<p id="p2">参与人次:8.35万次平均满标时间:1小时41分19秒</p>
+						</div>
+						<div class="xmnr2">
+							<p>期限12-60月，打理理加容易</p>
+							<a>查看更多>></a>
+						</div>
+						<div class="xmnr3 xmnr3s">
+							<div class="xmnr3-1">
+								<div class="xmnrimg xmnrimg2">
+									<p>车</p>
+								</div>
+								<p>朱先生比亚油S6汽车抵押贷款4.5万元</p>
+							</div>
+							<div class="xmnr3-2">
+								<p id="nr2">借款金额<span class="nr1">45000.00</span>元</p>
+								<div class="xmnrnr1">
+									<p id="nr1">年利率<span class="nr3">13.80%</span></p>
+									<p id="nr2">期限<span class="nr1">18</span>个月</p>
+									<div class="jindu jindu1">100%</div>
+									<div class="zhuangtai"><a>还款中</a></div>
+								</div>
+							</div>
+						</div>
+						<div class="xmnr3">
+							<div class="xmnr3-1">
+								<div class="xmnrimg xmnrimg2">
+									<p>车</p>
+								</div>
+								<p>朱先生别克英朗汽车抵押贷款5万元</p>
+							</div>
+							<div class="xmnr3-2">
+								<p id="nr2">借款金额<span class="nr1">50000.00</span>元</p>
+								<div class="xmnrnr1">
+									<p id="nr1">年利率<span class="nr3">13.80%</span></p>
+									<p id="nr2">期限<span class="nr1">18</span>个月</p>
+									<div class="jindu jindu1">100%</div>
+									<div class="zhuangtai"><a>还款中</a></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="xiangmu2">
+						<div class="xmnr1">
+							<div class="sprite">
+								<div class="sprite4"></div>
+								<p>债权转让</p>
+							</div>
+							<p id="p2">参与人次:8.06万次 平均转让用时:03小时06分22秒</p>
+						</div>
+						<div class="xmnr2">
+							<p>其他投资人折价转让，转让项目会随时更新，惊真不断</p>
+							<a>查看更多>></a>
+						</div>
+						<div class="xmnr3">
+							<div class="xmnr3-1">
+								<div class="xmnrimg xmnrimg3">
+									<p>转</p>
+								</div>
+								<p>注女士债权质押借款1万元</p>
+							</div>
+							<div class="xmnr3-2">
+								<p id="nr2">剩余期限<span class="nr1">2</span>月<span class="nr1">8</span>天</p>
+								<div class="xmnrnr1">
+									<p id="nr1">预计收益率<span class="nr3">12.42%</span></p>
+									<p id="nr2">转让价格<span class="nr1">10,068.17</span>元</p>
+									<div class="zhuangtaiyongshi">
+										<div class="zhuangtai"><a>已转让</a></div>
+										<p>用时:48秒</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="bangdan">
+					<div class="bangdans">
+						<div class="bangdannr1">
+							<div class="bangdannr1s">
+								<div class="bangdannr1img"></div>
+								<p>收益与风险并存，请理性选择平台</p>
+							</div>
+						</div>
+						<div class="bangdannr2">
+							<div class="bangdantop">
+								<p>网页公告</p>
+								<a id="gengduo">更多></a>
+							</div>
+							<div class="bangdannr2sleft">
+								<div class="bangdannr2sleftnr">
+									<div class="dian"></div>
+									<a>关于"金融产品"产品的说明</a>
+								</div>
+								<div class="bangdannr2sleftnr">
+									<div class="dian"></div>
+									<a>2015年9月10日发标预告</a>
+								</div>
+								<div class="bangdannr2sleftnr">
+									<div class="dian"></div>
+									<a>关于平台"纪念抗战胜利70周年***</a>
+								</div>
+								<div class="bangdannr2sleftnr">
+									<div class="dian"></div>
+									<a>关于P2P理财平台新系统***</a>
+								</div>
+								<div class="bangdannr2sleftnr">
+									<div class="dian"></div>
+									<a>关于债权贷新规调整实施的公告</a>
+								</div>
+							</div>
+							<div class="bangdannr2sright">
+								<p>06-19</p>
+								<p>09-10</p>
+								<p>09-02</p>
+								<p>09-02</p>
+								<p>08-25</p>
+							</div>
+						</div>
+						<div class="bangdannr3">
+							<div class="bangdantop">
+								<p>排行榜</p>
+								<a class="bangdanbtn1 bangdanbtn1s" id="jtbtn1" onmouseover="jtbtns(0)">收益</a>
+								<a class="bangdanbtn1" id="jtbtn1s" onmouseover="jtbtns(1)">投资</a>
+								<a id="gengduo">更多></a>
+							</div>
+							<div class="animated bounceInLeft" id="bangdannr1s1">
+								<div class="bangdannr3s">
+									<p id="no1">01</p>
+									<!-- <p>星沃¥56,654,659.06*10^993</p> -->
+									<p>gz******¥1,115,461.07</p>
+								</div>
+								<div class="bangdannr3s">
+									<p id="no2">02</p>
+									<p>米克******¥1,03,890.04</p>
+								</div>
+								<div class="bangdannr3s">
+									<p id="no3">03</p>
+									<p>灵儿******¥895,618.71</p>
+								</div>
+								<div class="bangdannr3s">
+									<p>04</p>
+									<p>li******¥795,154.06</p>
+								</div>
+								<div class="bangdannr3s">
+									<p>05</p>
+									<p>豆芽******¥747,154.44</p>
+								</div>
+							</div>
+							<div class="animated bounceInRight" id="bangdannr1s2">
+								<div class="bangdannr3s">
+									<p id="no1">01</p>
+									<!-- <p>星沃¥56,654,659.06*10^993</p> -->
+									<p>sz******¥1,166,551.09</p>
+								</div>
+								<div class="bangdannr3s">
+									<p id="no2">02</p>
+									<p>来杰******¥1,53,890.04</p>
+								</div>
+								<div class="bangdannr3s">
+									<p id="no3">03</p>
+									<p>灵子******¥885,618.51</p>
+								</div>
+								<div class="bangdannr3s">
+									<p>04</p>
+									<p>ls******¥885,154.06</p>
+								</div>
+								<div class="bangdannr3s">
+									<p>05</p>
+									<p>豆z******¥765,154.44</p>
+								</div>
+							</div>
+							
+							<div class="xuanzhejiantou jiantou1"></div>
+						</div>
+						<div class="bangdannr4">
+							<div class="bangdantop bangdantop2">
+								<a class="bangdanbtn2 bangdanbtn2s"  id="jtbtn2" onmouseover="jtbtns(2)">媒体报道</a>
+								<a class="bangdanbtn2" id="jtbtn2s" onmouseover="jtbtns(3)">理财知识</a>
+							</div>
+							<div class="animated bounceInLeft" id="bangdannr2s1">
+								<div class="bangdannr4s">
+									<img src="img/news.jpg" height="62px" width="62px"/>
+									<div class="bangdannr4stext">
+										<a>平台遭遇P2P滑稽抄袭</a>
+										<p>抄袭者居然把被抄袭者的名字一起抄下来，这样的乌龙抄袭</p>
+									</div>
+								</div>
+								<div class="bangdannr4s2">
+									<div class="bangdannr4s2s">
+										<div class="dian"></div>
+										<a>[凤凰网]平台携手哈工大关爱毕节留守儿...</a>
+									</div>
+									<div class="bangdannr4s2s">
+										<div class="dian"></div>
+										<a>[21CN财经]接受网贷之家专访</a>
+									</div>
+									<div class="bangdannr4s2s">
+										<div class="dian"></div>
+										<a>[和讯网]受邀参加中国财经峰会 斩获行...</a>
+									</div>
+								</div>
+							</div>
+							<div class="animated bounceInRight" id="bangdannr2s2">
+								<div class="bangdannr4s">
+									<img src="img/news.jpg" height="62px" width="62px"/>
+									<div class="bangdannr4stext">
+										<a>星某在平台一夜暴富</a>
+										<p>星某暴富是利用平台漏洞？是合情合理且真实有效</p>
+									</div>
+								</div>
+								<div class="bangdannr4s2">
+									<div class="bangdannr4s2s">
+										<div class="dian"></div>
+										<a href="https://www.bilibili.com/video/BV1yQ4y1i74M/">[哔哩哔哩]新时代二次元歌曲</a>
+									</div>
+									<div class="bangdannr4s2s">
+										<div class="dian"></div>
+										<a href="https://y.music.163.com/m/song?id=1909515171&userid=1531884862&dlt=0846 ">[网易云音乐]二次元新歌纯乐</a>
+									</div>
+								</div>
+							</div>
+							<div class="xuanzhejiantou jiantou2"></div>
+						</div>
+						<a class="bangdannr5"></a>
+					</div>
+				</div>
+			</div>
+			<div class="ands5">
+				<div class="hezuoshang">
+					<div class="hezuoshangtop">
+						<a class="bangdanbtn3 bangdanbtn3s" id="jtbtn3" onmouseover="jtbtns(4)">合作机构</a>
+						<a class="bangdanbtn3" id="jtbtn3s" onmouseover="jtbtns(5)">友情链接</a>
+					</div>
+					<div class="animated bounceInLeft" id="bangdannr3s1">
+						<div class="hezuoshangtop2">
+							<img src="img/logo_sbcvc.png"/>
+							<img src="img/logo_abc.png"/>
+							<img src="img/logo_wdzj.png"/>
+							<img src="img/logo_baidu.png"/>
+							<img src="img/logo_aqb.png"/>
+						</div>
+					</div>
+					<div class="animated bounceInRight" id="bangdannr3s2">
+						<div class="hezuoshangtop2">
+							<img src="img/logo_gds.png"/>
+						</div>
+					</div>
+					<div class="xuanzhejiantou jiantou3"></div>
+				</div>
+			</div>
+		</div>
+		<div class="bottomand">
+			<div class="bottom">
+				<div class="bottomtop">
+					<div class="bottomtop-1">
+						<div class="bottomtop-1box">
+							<p id="nr5">关于我们</p>
+							<a>公司简介</a>
+							<a>管理团队</a>
+							<a>网站公告</a>
+						</div>
+						<div class="bottomtop-1box">
+							<p id="nr5">相关业务</p>
+							<a>我要投资</a>
+							<a>我要借款</a>
+						</div>
+						<div class="bottomtop-1box">
+							<p id="nr5">帮助中心</p>
+							<a>新手入门</a>
+							<a>我的账户</a>
+							<a>债权转让</a>
+						</div>
+						<div class="bottomtop-1box">
+							<p id="nr5">联系我们</p>
+							<a>联系我们</a>
+						</div>
+					</div>
+					<div class="bottomtop-2">
+						<div class="bottomtop-2s">
+							<p id="nr6">400-660-1268</p>
+							<p>工作日 9:00-22:00</p>
+							<p id="nr9">官方交流群:<p id="nr8">12345678</p></p>
+							<p>工作日 9:00-22:00</p>
+							<div class="bottomtop-2btn">
+								<a class="bottombtn1"></a>
+								<a class="bottombtn2"></a>
+								<a class="bottombtn3"></a>
+								<a class="bottombtn4"></a>
+							</div>
+						</div>
+					</div>
+					<div class="bottomtop-3">
+						<p>官方二维码</p>
+						<div class="bottomtop-3img"></div>
+					</div>
+				</div>
+				<div class="bottomtop2">
+					<div class="bottomtop2-1"></div>
+					<div class="bottomtop2-2"></div>
+					<div class="bottomtop2-3"></div>
+					<div class="bottomtop2-4"></div>
+				</div>
+				<div class="bottomtop3">
+					<p>©2015 亿人宝 All rights reserved</p><p>|</p><p>安徽省亿人宝投资管理有限公司</p><p>|</p><p>皖ICP备12345678号-1</p>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/se.js"></script>
+		<script src="js/jquery.countup.js"></script>
+		<script src="js/jquery.waypoints.min.js"></script>
+		<script>
+			$(`.counter`).countUp();
+		</script>
+	</body>
+</html>
+
+
+

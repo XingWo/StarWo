@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="../js/layui-v2.6.8/layui/css/layui.css">
+		<script src="../js/layui-v2.6.8/layui/layui.js"></script>
+		<meta name="renderer" content="webkit"/><!--  使用最新的引擎渲染网页 -->
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0 ,maximum-scale=1.0, user-scalable=no" /><!-- 手机H5兼容模式 --> 
+		<meta http-equiv="Access-Control-Allow-Origin" content="*"><!-- 允许跨域访问 -->
+		<meta http-equiv="pragma" content="no-cache" /><meta http-equiv="expires" content="0" />    <!-- 不缓存网页 -->
+		<script src="../js/layer/layer.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/candle.css"/>
+		<script type="text/javascript" src="../js/jquery.js"></script>
+		<script type="text/javascript" src="js/candle.js"></script>
+		<title>光遇货币自填系统</title>
+	</head>
+	<body>
+		<div id="candlebox">
+			<div class="candle-box" id="candle-box0">
+				<div class="candle" id="candle0">
+					<img  src="img/systemui_candle.png">
+					<div id="canlep0"><p></p></div>
+				</div>
+			</div>
+			<div class="candle-box" id="heart-box0">
+				<div class="heart" id="heart0">
+					<img  src="img/systemui_heart.png">
+					<div id="heartp0"><p></p></div>
+				</div>
+			</div>
+			<div class="candle-box" id="candle-box1">
+				<div class="candle" id="candle1">
+					<img id="seasoncandle" src="img/systemui_seasoncandle16.png">
+					<div id="canlep1"><p></p></div>
+				</div>
+			</div>
+			<div class="candle-box" id="heart-box1">
+				<div class="heart" id="heart1">
+					<img id="seasonheart" src="img/systemui_seasonheart16.png">
+					<div id="heartp1"><p></p></div>
+				</div>
+			</div>
+			<div class="candle-box" id="candle-box2">
+				<div class="candle" id="candle2">
+					<img  src="img/systemui_prestige.png">
+					<div id="canlep2"><p></p></div>
+				</div>
+			</div>
+			<div class="candle-box" id="seasonticket-box">
+				<div class="ticket" id="ticket">
+					<img id="ticketimg" src="img/seasonticket16.png">
+				</div>
+			</div>
+			<div class="candle-box" id="candle-box3">
+				<div class="candle" id="candle3">
+					<img id="activitycandle" src="img/systemui_eventcandle1.png">
+					<div id="canlep3"><p></p></div>
+				</div>
+			</div>
+			
+		</div>
+		<div class="box">
+			<div class="candlebtnbox" style="overflow: scroll;">
+				<h1 style="color: red;scroll-snap-align: none;">光遇自填货币系统</h1>
+				<h3 style="scroll-snap-align: none;">要多少填多少，来点中文也不是问题，展示效果也有两个可以选，可用于直播录屏等，切莫用于欺诈等非法用途，本作品仅作为娱乐目的发布，可能造成的后果与作者无关。</h5>
+				<h3 style="scroll-snap-align: none;">推荐以浏览器源的形式添加到OBS和直播姬里使用【默认适配1080P，即宽1920高1080像素】</h3>
+				<div class="seasonbtns">
+					<p class="numtext">季节主题：
+						<ul class="seasonbtn" id="seasonbtn0" onmouseleave="seasonbtnhover(0)">季节选择
+							<li onclick="seasonbtnnum(0)">感恩季</li>
+							<li onclick="seasonbtnnum(1)">追光季</li>
+							<li onclick="seasonbtnnum(2)">归属季</li>
+							<li onclick="seasonbtnnum(3)">凛冬季</li>
+							<li onclick="seasonbtnnum(4)">魔法季</li>
+							<li onclick="seasonbtnnum(5)">圣岛季</li>
+							<li onclick="seasonbtnnum(6)">预言季</li>
+							<li onclick="seasonbtnnum(7)">梦想季</li>
+							<li onclick="seasonbtnnum(8)">集结季</li>
+							<li onclick="seasonbtnnum(9)">小王子季</li>
+							<li onclick="seasonbtnnum(10)">风行季</li>
+							<li onclick="seasonbtnnum(11)">深渊季</li>
+							<li onclick="seasonbtnnum(12)">表演季</li>
+							<li onclick="seasonbtnnum(13)">破碎季</li>
+							<li onclick="seasonbtnnum(14)">欧若拉季</li>
+							<li onclick="seasonbtnnum(15)">缅怀季</li>
+							<li onclick="seasonbtnnum(16)">夜行季</li>
+							<li onclick="seasonbtnnum(17)">？？季</li>
+						</ul>
+					</p>
+					
+					
+					<p class="numtext">活动主题：
+						<ul class="seasonbtn" id="seasonbtn1" onmouseleave="seasonbtnhover(1)">活动选择
+						<li onclick="activitynum(0)">周年庆</li>
+						<li onclick="activitynum(1)">彩虹日</li>
+						<li onclick="activitynum(2)">音乐会</li>
+					</ul>
+					</p>
+					<a id="showbtn" style="font-size: 1.16em;" onclick="show()">展示蜡烛</a>
+					
+				</div>
+				<div>
+					<p class="numtext">普通蜡烛：</p>
+					<input placeholder="普通蜡烛数量" oninput="candleinput(0)" id="candleinput0" type="text" value="99999">
+					<a class="candlebtn" id="candlebtn" onclick="candleimgbtn()">样式</a>
+					<a class="candlebtn" id="candlebtn0" onclick="candlebtn(0)">切换</a>
+				</div>
+				<div>
+					<p class="numtext">普通爱心：</p>
+					<input placeholder="普通爱心数量" oninput="heartinput(0)" id="heartinput0" type="text" value="5201314">
+					<a class="heartbtn" id="heartbtn0" onclick="heartbtn(0)">样式切换</a>
+				</div>
+				<div>
+					<p class="numtext">季节蜡烛：</p>
+					<input placeholder="季节蜡烛数量" oninput="candleinput(1)" id="candleinput1" type="text" value="648">
+					<a class="candlebtn" id="candlebtn1" onclick="candlebtn(1)">样式切换</a>
+				</div>
+				<div>
+					<p class="numtext">季节爱心：</p>
+					<input style="width: 120px;height: 30px;" placeholder="季节爱心数量" oninput="heartinput(1)" id="heartinput1" type="text" value="3">
+					<p class="numtext">季卡：</p>
+					<input style="width: 120px;height: 30px;" placeholder="季卡数量" oninput="seasonticket()" id="seasonticket" type="text" value="3">
+				</div>
+				<div>
+					<p class="numtext">升华蜡烛：</p>
+					<input placeholder="升华蜡烛数量" oninput="candleinput(2)" id="candleinput2" type="text" value="∞">
+					<a class="candlebtn" id="candlebtn2" onclick="candlebtn(2)">样式切换</a>
+				</div>
+				<div>
+					<p class="numtext">活动蜡烛：</p>
+					<input placeholder="活动蜡烛数量" oninput="candleinput(3)" id="candleinput3" type="text" value="66">
+					<a class="candlebtn" id="candlebtn3" onclick="candlebtn(3)">样式切换</a>
+				</div>
+				
+				<h3 style="scroll-snap-align: none;">使用前给个关注呗
+					<a target="_blank" rel="noopener noreferrer" href="https://space.bilibili.com/398932457" style="font-size: 1.16em;">跳转关注</a>
+					<a target="_blank" rel="noopener noreferrer" href="candle.zip" download="candle.zip" style="font-size: 1.16em;">本地部署</a>
+				</h3>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>小车案例-js控制显示隐藏</title>
+		<link rel="stylesheet" href="css/che.css">
+		<link rel="stylesheet" type="text/css" href="../../css/animate.min.css"/>
+	</head>
+	<body>
+		<div class="bobox">
+			<div class="tittle">
+				<h1>产品中心</h1>
+				<p>—— Products Center ——</p>
+			</div>
+			<div class="contentnrs">
+				<div class="content_left">
+					<div class="huadongtiao huadongtiaoleft"></div>
+					<div class="huadongtiao huadongtiaoright"></div>
+					<div class="txt1">
+						<h2>- 这是标题 -</h2>
+					</div>
+					<div class="txt2 txt2x" id="txt0" onclick="btn(0)" onmouseover="btna(0)" onmouseout="btans(0)">
+						<p id="p0">这是标题</p>
+					</div>
+					<div class="txt2" id="txt1" onclick="btn(1)" onmouseover="btna(1)" onmouseout="btans(1)">
+						<p id="p1">这是标题</p>
+					</div>
+					<div class="txt2" id="txt2" onclick="btn(2)" onmouseover="btna(2)"  onmouseout="btans(2)">
+						<p id="p2">这是标题</p>
+					</div>
+					<div class="txt2" id="txt3" onclick="btn(3)" onmouseover="btna(3)"  onmouseout="btans(3)">
+						<p id="p3">这是标题</p>
+					</div>
+					<div class="txt2" id="txt4" onclick="btn(4)" onmouseover="btna(4)"  onmouseout="btans(4)">
+						<p id="p4">这是标题</p>
+					</div>
+					<div class="txt2" id="txt5" onclick="btn(5)" onmouseover="btna(5)"  onmouseout="btans(5)">
+						<p id="p5">这是标题</p>
+					</div>
+					<div class="txt3">
+						<div class="img">
+							<img src="../img/tel.png" width="100%" height="100%">
+						</div>
+						<div class="txt3_right">
+							<p>全国服务热线</p>
+							<span>800-8686868</span>
+						</div>
+					</div>
+				</div>
+				<div class="content_right animated rotateIn" id="nr0">
+					<div class="content_right_nrbox">
+						<div class="che1">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che1">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che1">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che1">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che1">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che1">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+					</div>
+				</div>
+				<div class="content_right animated fadeIn" id="nr1">
+					<div class="content_right_nrbox">
+						<div class="che2">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che2">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che2">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che2">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che2">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che2">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+					</div>
+				</div>
+				<div class="content_right animated fadeInUp" id="nr2">
+					<div class="content_right_nrbox">
+						<div class="che3">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che3">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che3">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che3">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che3">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che3">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+					</div>
+				</div>
+				<div class="content_right animated fadeInDown" id="nr3">
+					<div class="content_right_nrbox">
+						<div class="che4">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che4">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che4">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che4">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che4">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che4">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+					</div>
+				</div>
+				<div class="content_right animated bounceIn" id="nr4">
+					<div class="content_right_nrbox">
+						<div class="che5">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che5">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che5">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che5">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che5">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che5">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+					</div>
+				</div>
+				<div class="content_right animated rollIn" id="nr5">
+					<div class="content_right_nrbox">
+						<div class="che6">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che6">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che6">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che6">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che6">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+						<div class="che6">
+							<div class="che"></div>
+							<p>这是产品名称</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script src="js/che.js"></script>
+	</body>
+</html>

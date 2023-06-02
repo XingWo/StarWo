@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>帘幕切换</title>
+		<script type="text/javascript" src="../js/jquery.js"></script>
+	</head>
+	<style>
+		@font-face {
+			font-family:"pingfang";
+			src: url("../海军首页/css/font0.ttf");
+		}
+		p{
+			color: transparent;
+			background-image: linear-gradient(to right,#00ffff,#aaaaff);
+			-webkit-background-clip: text;
+		}
+		*{
+			padding: 0;
+			margin: 0;
+			font-family: "pingfang";
+		}
+		body{
+			height: 100vh;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		body::-webkit-scrollbar{
+			display: none;
+		}
+		main{
+			display: flex;
+			scroll-snap-type:x mandatory;/* 看情况可用proximity */
+			overflow: scroll;
+			height: 100%;
+			width: 100%;
+			overflow-y: hidden;
+			overflow-x: auto;
+		}
+		main::-webkit-scrollbar{
+			height: .5vh;
+		}
+		main::-webkit-scrollbar-thumb{
+			border-radius: 2vh;
+			-webkit-box-shadow: inset 0 0 .5vh rgba(0,0,0,0.2);
+			background: rgba(255, 255, 255, 0.8);
+		}
+		main::-webkit-scrollbar-track{
+			display: none;
+		}
+		section{
+			width: 100%;
+			height: 100%;
+			scroll-snap-align: start;
+			flex-shrink: 0;
+			box-shadow: 1vh #888888;
+		}
+	</style>
+	<body>
+		<main>
+			<section style="background: url(av377039317.png);background-size: 100%;background-position: center;background-attachment: fixed;background-size:100% ;"><p id="z">点击图片然后点击键盘左右试试</p></section>
+			<section style="background: url(av377175294.png);background-size: 100%;background-position: center;background-attachment: fixed;background-size:100% ;"></section>
+			<section style="background: url(av377733831.png);background-size: 100%;background-position: center;background-attachment: fixed;background-size:100% ;"></section>
+			<section style="background: url(av551767695.jpg);background-size: 100%;background-position: center;background-attachment: fixed;background-size:100% ;"></section>
+		</main>
+	</body>
+	<script>
+		$("main").click(function(){
+			setTimeout(function(){
+				$("#z").css("display",'none')
+			},1000);
+		});
+	</script>
+</html>

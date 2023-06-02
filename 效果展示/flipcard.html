@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>翻转卡片</title>
+	</head>
+	<style>
+		a,p,img,div{
+			user-select: none;
+		}
+		@font-face {
+			font-family:"pingfang";
+			src: url("../海军首页/css/font0.ttf");
+		}
+		*{
+			padding: 0;
+			margin: 0;
+			font-family: "pingfang";
+		}
+		p,a{
+			color: #aaaaff;
+			text-decoration: none;
+		}
+		body{
+			display: flex;
+			justify-content: center;
+		}
+		.card{
+			margin-top: 20vh;
+			margin-left: 3vh;
+			border-radius: 3vh;
+			box-shadow: 1.5vh .5vh 5vh #888888;
+			width: 30vh;
+			height: 45vh;
+			font-size: 3.3vh;
+			line-height: 5vh;
+			cursor: pointer;
+			transform-style: preserve-3d;
+			overflow: hidden;
+			position: relative;
+		}
+		.cards{
+			animation: rotate-reverse 1.3s forwards;
+		}
+		.cardadd{
+			animation: rotate 1.3s forwards;
+		}
+		.front,.back{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+		.front{
+			background-image: url(../img/1655806244802.png);
+			background-position: center;
+			background-size: 120%;
+		}
+		.back{
+			background-image: url(../img/1655806091478.png);
+			background-position: center;
+			background-size: 100%;
+			z-index: -1;
+		}
+		.front_1{
+			animation: rotaten .8s forwards;
+		}
+		.back_1{
+			transform: rotateY(180deg);
+			animation: rotatef .8s forwards;
+		}
+		.front_2{
+			animation: rotatef .8s forwards;
+		}
+		.back_2{
+			transform: rotateY(180deg);
+			animation: rotaten .8s forwards;
+		}
+		@keyframes rotatef{
+			0%{
+				z-index: 1;
+			}
+			50%{
+				z-index: 1;
+			}
+			51%{
+				z-index: -1;
+			}
+			100%{
+				z-index: -1;
+			}
+		}
+		@keyframes rotaten{
+			0%{
+				z-index: -1;
+			}
+			50%{
+				z-index: -1;
+			}
+			51%{
+				z-index: 1;
+			}
+			100%{
+				z-index: 1;
+			}
+		}
+		@keyframes rotate{
+			0%{
+				transform: rotateY(0);
+			}
+			100%{
+				transform: rotateY(180deg);
+			}
+		}
+		@keyframes rotate-reverse{
+			0%{
+				transform: rotateY(180deg);
+			}
+			100%{
+				transform: rotateY(0);
+			}
+		}
+	</style>
+	<body>
+		<div class="card" id="card">
+			<!-- 正面 -->
+			<div class="front" id="front">
+				<p>点开抽取契约</p>
+			</div>
+			<!-- 背面 -->
+			<div class="back" id="back">
+				<a target="_blank" href="https://space.bilibili.com/398932457">关注</a>
+				<a target="_blank" href="https://www.bilibili.com/video/BV1yQ4y1i74M/">点赞</a>
+				<a target="_blank" href="https://www.bilibili.com/video/BV1yQ4y1i74M/">投币</a>
+				<a target="_blank" href="https://www.bilibili.com/video/BV1yQ4y1i74M/">收藏</a>
+				<a target="_blank" href="https://www.bilibili.com/video/BV1yQ4y1i74M/">分享</a>
+			</div>
+		</div>
+		<script>
+			var card=document.getElementById("card");
+			var back=document.getElementById("back");
+			var front=document.getElementById("front");
+			var zt=0;
+			var tim=0;
+			card.onclick=function(){
+				if(zt==0){
+					zt=1;
+					tim=0;
+					card.className="card cardadd";
+					back.className="back back_2";
+					front.className="front front_2";
+					setInterval(function(){
+						tim=tim+1;
+					},1000)
+				}
+			}
+			card.onmouseleave=function(){
+				if(zt==1){
+					if(tim<2){
+						zt=2;
+						setTimeout(function(){
+							card.className="card cards";
+							back.className="back back_1";
+							front.className="front front_1";
+							setTimeout(function(){
+								zt=0;
+							},1300);
+						},800);
+					}
+					else{
+						zt=2;
+						card.className="card cards";
+						back.className="back back_1";
+						front.className="front front_1";
+						setTimeout(function(){
+							zt=0;
+						},1300);
+					}
+				}
+			}
+		</script>
+	</body>
+</html>

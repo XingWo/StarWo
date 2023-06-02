@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>滚动贴合</title>
+		<script type="text/javascript" src="../js/jquery.js"></script>
+	</head>
+	<style>
+		@font-face {
+			font-family:"pingfang";
+			src: url("../海军首页/css/font0.ttf");
+		}
+		p{
+			color: transparent;
+			background-image: linear-gradient(to right,#00ffff,#aaaaff);
+			-webkit-background-clip: text;
+		}
+		*{
+			padding: 0;
+			margin: 0;
+			font-family: "pingfang";
+		}
+		body{
+			height: 100vh;
+		}
+		::-webkit-scrollbar{
+			display: none;
+		}
+		main{
+			scroll-snap-type:y mandatory;/* 看情况可用proximity */
+			overflow: scroll;
+			height: 100%;
+		}
+		section{
+			width: 100%;
+			height: 100%;
+			scroll-snap-align: start;
+		}
+	</style>
+	<body>
+		<main>
+			<section style="background: url(av377039317.png);background-size: 100%;background-position: center;"><p id="z">使用滚轮可看效果</p></section>
+			<section style="background: url(av377175294.png);background-size: 100%;background-position: center;"></section>
+			<section style="background: url(av377733831.png);background-size: 100%;background-position: center;"></section>
+			<section style="background: url(av551767695.jpg);background-size: 100%;background-position: center;"></section>
+		</main>
+	</body>
+	<script>
+		$("main").hover(function(){
+			setTimeout(function(){
+				$("#z").css("display",'none')
+			},1000);
+		});
+	</script>
+</html>

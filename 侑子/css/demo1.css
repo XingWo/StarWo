@@ -1,0 +1,40 @@
+.box:hover.box::before{
+	background-image: url(../img/background2.png);
+	background-position: center;
+	filter: blur(15px);
+}
+@font-face {
+	font-family:"xingwo";
+	src: url("xingwo.ttf");
+}
+.boxleftnextz p{
+	font-family:"xingwo";
+}
+.boxleftnext p{
+	font-family:"xingwo";
+}
+.boxleftnextright p{
+	font-family:"xingwo";
+}
+.boxrightnext p{
+	font-family:"xingwo";
+}
+a{
+	font-family:"xingwo";
+}
+span{
+	font-family:"xingwo";
+}
+#nr2 span{
+	font-size: 5vh;
+}
+p,span,a{
+	background-image: linear-gradient(to right,#ff8437,#ec44fb);
+	animation: backgroundgif 30s infinite;
+}
+a{
+	background-image: linear-gradient(to right,#ff8437,#ec44fb);
+}
+.boxleftup p{
+	background-image: linear-gradient(to right,#00ffff,#aaaaff);
+}

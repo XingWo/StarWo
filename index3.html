@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="js/layui-v2.6.8/layui/css/layui.css">
+		<script src="js/layui-v2.6.8/layui/layui.js"></script>
+		<meta name="renderer" content="webkit"/><!--  使用最新的引擎渲染网页 -->
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0 ,maximum-scale=1.0, user-scalable=no" /><!-- 手机H5兼容模式 --> 
+		<meta http-equiv="Access-Control-Allow-Origin" content="*"><!-- 允许跨域访问 -->
+		<meta http-equiv="pragma" content="no-cache" /><meta http-equiv="expires" content="0" />    <!-- 不缓存网页 -->
+		<title>星沃的个人网页收藏合集</title>
+		<script type="text/javascript" src="js/time.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/demo.css"/>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script src="js/layer/layer.js"></script>
+		<style type="text/css">
+			body {
+				background-image: url(img/background.png);
+				background-size: 100%;
+				background-position: center;
+				background-attachment: fixed;
+			}
+		</style>
+	</head>
+	<!-- 真的那么想看代码么？
+	都给我翻到这里面来了？
+	怎么点进来的链接？
+	不直接找我要？
+	拿去吧！给你！
+	把你三连+分享留下就行 -->
+	<body>
+		<div class="pinmutishi">
+			<h1 id="pinmutishi"></h1>
+			<script>
+				function boxing(){
+					var winhei=document.documentElement.clientHeight;
+					var winwid=document.documentElement.clientWidth;
+					var zts=document.getElementById("pinmutishi");
+					var boxri=document.getElementById("boxand");
+					if(winhei>winwid){
+						$(".pinmutishi").show();
+						zts.innerHTML=`推荐使用横屏浏览哦~`;
+					}else{
+						if(winhei*13>winwid*9){
+							$(".pinmutishi").show();
+							zts.innerHTML=`折叠屏？概念机？我可都没有!你还搁着等适配呢？~`;
+						}else{
+							if(winhei*2>winwid){
+								$(".pinmutishi").hide();
+								$(".box").css("aspect-ratio",'16/9');
+								$("body").css("min-width",'160vh');
+								$("#btn0").css("right",'-33vh');
+							}else{
+								if(winhei*21>winwid*9){
+									$(".pinmutishi").hide();
+									$(".box").css("aspect-ratio",'2/1');
+									$("body").css("min-width",'180vh');
+									$("#btn0").css("right",'-38vh');
+								}else{
+									if(winhei*3<winwid){
+										$(".pinmutishi").show();
+										zts.innerHTML=`故意的不？谁家屏幕长这样，就想玩坏我~哼o(´^｀)o!`;
+									}else{
+										$(".pinmutishi").hide();
+										$(".box").css("aspect-ratio",'21/9');
+										$("#btn0").css("right",'-46vh');
+										$("body").css("min-width",'210vh');
+									}
+								}
+							}
+						}
+					}
+					setTimeout(function(){
+					// 获取一个高度修改另一个高度，适用于不同单位的物体，如10vh里套一个10vh+10px的嵌入，margin-top多余的10px的固定部分
+					var boxhei=boxri.clientHeight;
+					$("#QT2_nr").css("height",(boxhei+463)+'px');
+					},300);
+				};
+				window.onresize=function(){
+					boxing();
+				};
+				$(document).ready(function(){
+					boxing();
+				});
+				// function loop(){
+				// 	window.requestAnimationFrame(function(){
+				// 		debugger;
+				// 		loop();
+				// 	})
+				// }
+				// loop();
+			</script>
+		</div>
+		<div class="ball" onclick="btnplay()">
+			🎵
+			<audio><!-- 加controls浏览器自带播放器 -->
+				<source src="img/mqxq.mp3"/>
+			</audio>
+			<div class="pause"></div>
+			<script>
+				var audio = document.querySelector("audio");
+				var audiozt = 0;
+				function btnplay(){
+					if(audiozt == 0){
+						audiozt=1;
+						$(".ball").css("animation",'ball 8s infinite linear');
+						$(".pause").hide();
+						audio.play();
+					}else{
+						audiozt=0;
+						$(".ball").css("animation",'ball 8s infinite linear paused');
+						$(".pause").show();
+						audio.pause();
+					}
+				}
+				$(document).ready(function(){
+					setTimeout(function(){
+						if(audiozt==1){
+							$(".ball").css("animation",'ball 8s infinite linear');
+							$(".pause").hide();
+							audio.play();
+						}else if(audiozt==0){
+							$(".ball").css("animation",'ball 8s infinite linear paused');
+							$(".pause").show();
+							audio.pause();
+						}
+					},1000);
+				})
+			</script>
+		</div>
+		<div id="boxand" class="box">
+			<div class="boxleft">
+				<div class="boxleftup">
+					<p><a id="boss">星沃的网页书签</a></p>
+				</div>
+				<div class="boxleftnext" id="boxr" style="position: relative;">
+					<p id="no1">音乐歌单</p>
+					<p id="no2">视频追番</p>
+					<p id="no3">动漫电影</p>
+					<p id="no4">up推荐</p>
+					<p id="no5">网页精选</p>
+					<p id="no6">学期作业</p>
+					<p id="no7"><p>
+					<p id="no8">效果展示<p>
+					<p id="no9"><p>
+					<p id="no0"><p>
+					<a id="btn0" onclick="btn(0)" style="position: absolute;bottom: 3vh;right: -33vh;font-size: 5vh;">↔</a>
+				</div>
+				<div class="boxleftnextright" id="boxd">
+					<p id="no11"></p>
+					<p id="no12"></p>
+					<p id="no13"></p>
+					<p id="no14"></p>
+					<p id="no15"></p>
+					<p id="no16"></p>
+					<p id="no17"><p>
+					<p id="no18"><p>
+					<p id="no19"><p>
+					<p id="no10"><p>
+					<p id="no20"><p>
+					<p id="no21"></p>
+					<p id="no22"></p>
+					<p id="no23"></p>
+					<p id="no24"></p>
+					<p id="no25"></p>
+					<p id="no26"></p>
+					<p id="no27"><p>
+					<p id="no28"><p>
+					<p id="no29"><p>
+					<p id="no30"><p>
+				</div>
+			</div>
+			
+			<div class="boxright" id="boxright">
+				<div class="boxrightnext">
+					<p id="nr1"></p>
+					<p id="nr2"></p>
+					<li id="nr3"><a target="_blank" rel="noopener noreferrer" href=""></a></li>
+					<a id="btn1" onclick="btn(1)" style="position: absolute;bottom: 1%;;left: 2vh;display: none;z-index: 5;">
+						<i class="layui-icon">&#xe622;</i>
+					</a>
+					<a id="btn2" onclick="btn(2)" style="position: absolute;bottom: 1%;left: -6.5vh;display: none;z-index: 5;"><i class="layui-icon">&#xe68e;</i></a>
+				</div>
+			</div>
+		</div>
+		<script>
+			$('#boss').on('mouseover', function(){
+			    layer.tips('返回总菜单', '#boss',{
+				  tips: [3, '#cdd9ff']
+				});
+			  });
+			$('.ball').on('mouseover', function(){
+			    layer.tips('点击暂停/播放（默认暂停）[编曲/翻谱作者：林聿生（星沃）]', '.ball',{
+				  tips: [3, '#f9b5ff']
+				});
+				layer.tips('曲目已发布——哔哩哔哩，网易云音乐', '.ball',{tipsMore: true});
+			  });
+			$('#btn0').on('mouseover', function(){
+			    layer.tips('往左放大', '#btn0',{
+				  tips: [4, '#cdd9ff']
+				});
+			  });
+			$('#btn1').on('mouseover', function(){
+			    layer.tips('可视区窗口最大化', '#btn1',{
+				  tips: [4, '#f9b5ff']
+				});
+			  });
+			$('#btn1').on('click', function(){
+			    layer.tips('点此取消可视区窗口最大化', '#btn2',{
+				  tips: [4, '#f9b5ff']
+				});
+			  });
+			$('#btn2').on('mouseover', function(){
+			    layer.tips('取消可视区窗口最大化', '#btn2',{
+				  tips: [4, '#f9b5ff']
+				});
+			  });
+			$("#boxd p").click(function(){
+				$("#btn1").css("display",'block');
+			})
+			function btn(num){
+				if(num==0){
+					var boss=document.getElementById("boss");
+					$("#boxr").css("display",'none');
+					$("#boxd").removeClass("boxleftnextright");
+					$("#boxd").addClass("boxleftnext");
+					$("#btn0").css("display",'none');
+					boss.innerHTML=`点击返回主菜单`;
+				}
+				if(num==1){
+					$(".boxleft").css("display",'none');
+					$("#btn2").css("display",'block');
+					$("#boxright").removeClass("boxright");
+					$("#boxright").addClass("boxrightadd");
+					$("#btn1").css("display",'none');
+				}
+				if(num==2){
+					$("#btn1").css("display",'block');
+					$("#boxright").removeClass("boxrightadd");
+					$("#boxright").addClass("boxright");
+					$("#btn2").css("display",'none');
+					$(".boxleft").css("display",'block');
+				}
+				if(num==3){
+					var nr2=document.getElementById("nr2");
+					nr1.innerHTML=`别再点下去了啦`;
+					nr2.innerHTML=`
+					<p>就到这里吧，真心不让你点进去了</p>
+					<p>就到这里吧，真心不让你点进去了</p>
+					<p>就到这里吧，真心不让你点进去了</p>
+					<p>就到这里吧，真心不让你点进去了</p>
+					<p>就到这里吧，真心不让你点进去了</p>
+					<p>就到这里吧，真心不让你点进去了</p>
+					<iframe src="无限套娃/index.html" height="100%" width="100%" frameborder="0" allowfullscreen="true"  scrolling="no" style="position: absolute;top:0;left:0; border-radius: 8px;"></iframe>
+					<div class="pinmutishi" style="position: absolute;display: block;box-shadow: 0 0 0.8vh #98dbff;   border-radius: 8px;">
+					<a target="_blank" rel="noopener noreferrer" href="无限套娃/index.html">直接作死 反正就是要看</a>
+					</div>
+					`;
+				}
+			}
+		</script>
+		<script src="js/index.js"></script>
+		<script>
+		
+		//显示日期时间
+		var week = ['星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+		var timerID = setInterval(updateTime, 1000);
+		var sitetime="2014/05/22 14:30:00";
+		updateTime();
+		function updateTime() {
+		    var cd = new Date();
+		    $('#time').text(zeroPadding(cd.getHours(), 2) + ':' + zeroPadding(cd.getMinutes(), 2) + ':' + zeroPadding(cd.getSeconds(), 2));
+		    $('#text').text(zeroPadding(cd.getFullYear(), 4) + '-' + zeroPadding(cd.getMonth()+1, 2) + '-' + zeroPadding(cd.getDate(), 2) + ' ' + week[cd.getDay()]);
+		};
+		
+		function zeroPadding(num, digit) {
+		    var zero = '';
+		    for(var i = 0; i < digit; i++) {
+		        zero += '0';
+		    }
+		    return (zero + num).slice(-digit);
+		}
+		</script>
+	</body>
+</html>
