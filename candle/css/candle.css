@@ -236,7 +236,8 @@ a,p,img,div{
 	width: 800px;
 	height: 500px;
 	background-color: aquamarine;
-	display: none;
+	/* display: none; */
+	display: flex;
 	flex-wrap:wrap;
 	justify-content: space-around;
 	align-content: center;
@@ -244,9 +245,9 @@ a,p,img,div{
 	align-items: center;
 	font-family: 隶书;
 }
-.box:hover .candlebtnbox{
+/* .box:hover .candlebtnbox{
 	display: flex;
-}
+} */
 .candlebtnbox div{
 	display: flex;
 	scroll-snap-align: none;

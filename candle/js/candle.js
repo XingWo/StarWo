@@ -81,26 +81,47 @@ function heartbtn(num){
 function candleinput(num){
 	var candlenumber=$("#candleinput"+num).val();
 	$("#candle"+num).attr("num",candlenumber);
+	$.cookie('candleValue'+num, candlenumber);
 }
 function heartinput(num){
 	var heartnumber=$("#heartinput"+num).val();
 	$("#heart"+num).attr("num",heartnumber);
+	$.cookie('heartValue'+num, heartnumber);
 }
 function seasonticket(){
 	var ticketnum=$("#seasonticket").val();
 	$("#ticket").attr("num",ticketnum);
+	$.cookie('ticketValue', ticketnum);
 }
 //网页加载的自动执行
 window.onload = function(){
 	var num=[0,1,2,3];
 	$.each(num,function(value){
 		//货币初始数量（可在html文件对应input里修改）
-		var candlenumber=$("#candleinput"+value).val();
-		$("#candle"+value).attr("num",candlenumber);
-		var heartnumber=$("#heartinput"+value).val();
-		$("#heart"+value).attr("num",heartnumber);
-		var ticketnum=$("#seasonticket").val();
-		$("#ticket").attr("num",ticketnum);
+		var candleValue = $.cookie('candleValue'+value);
+			if(candleValue){
+				$("#candleinput"+value).val(candleValue);
+				$("#candle"+value).attr("num",candleValue);
+			}else{
+				var candlenumber=$("#candleinput"+value).val();
+				$("#candle"+value).attr("num",candlenumber);
+			}
+		var heartValue = $.cookie('heartValue'+value);
+			if(heartValue){
+				$("#heartinput"+value).val(heartValue);
+				$("#heart"+value).attr("num",heartValue);
+			}else{
+				var heartnumber=$("#heartinput"+value).val();
+				$("#heart"+value).attr("num",heartnumber);
+			}
+		var ticketValue = $.cookie('ticketValue');
+			if(ticketValue){
+				$("#seasonticket").val(ticketValue);
+				$("#ticket").attr("num",ticketValue);
+			}else{
+				var ticketnum=$("#seasonticket").val();
+				$("#ticket").attr("num",ticketnum);
+			}
 		//货币默认展示样式，可在css中定义对应id"candle+num"或"heart+num"的"--candle-zt"或"--heart-zt"自定义变量为"true"或"false";
 		var candlezt = $("#candle"+value).css('--candle-zt');
 		if(candlezt == 'false'){
