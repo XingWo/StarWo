@@ -81,17 +81,17 @@ function heartbtn(num){
 function candleinput(num){
 	var candlenumber=$("#candleinput"+num).val();
 	$("#candle"+num).attr("num",candlenumber);
-	$.cookie('candleValue'+num, candlenumber);
+	$.cookie('candleValue'+num, candlenumber, {expires:3000});
 }
 function heartinput(num){
 	var heartnumber=$("#heartinput"+num).val();
 	$("#heart"+num).attr("num",heartnumber);
-	$.cookie('heartValue'+num, heartnumber);
+	$.cookie('heartValue'+num, heartnumber, {expires:3000});
 }
 function seasonticket(){
 	var ticketnum=$("#seasonticket").val();
 	$("#ticket").attr("num",ticketnum);
-	$.cookie('ticketValue', ticketnum);
+	$.cookie('ticketValue', ticketnum, {expires:3000});
 }
 //网页加载的自动执行
 window.onload = function(){
