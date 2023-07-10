@@ -196,7 +196,15 @@ function seasonbtnnum(num){
 }//切换图标
 //活动代币图标切换按钮
 function activitynum(num){
+	$("#candle-box3").css({
+		"display":"flex",
+	});
 	$("#activitycandle").attr("src","img/systemui_eventcandle"+num+".png");
+}
+function activitynumtonone(){
+	$("#candle-box3").css({
+		"display":"none",
+	});$("#activitycandle").attr("src","img/systemui_eventcandle"+num+".png");
 }
 //普通蜡烛加成样式
 function candleimgbtn(){
