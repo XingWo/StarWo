@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数字序列生成器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label, input {
+            display: block;
+            margin: 10px 0;
+        }
+        #result {
+            margin-top: 20px;
+            white-space: pre-wrap; /* 保证长文本换行 */
+            word-wrap: break-word; /* 保证长单词换行 */
+        }
+    </style>
+</head>
+<body>
+    <h1>数字序列生成器</h1>
+    <label for="start">初始值:</label>
+    <input type="number" id="start" name="start">
+    
+    <label for="end">结束值:</label>
+    <input type="number" id="end" name="end">
+    
+    <label for="separator">间隔字符:</label>
+    <input type="text" id="separator" name="separator" value=",">
+    
+    <label for="maxDifference">最大差值 (默认为99):</label>
+    <input type="number" id="maxDifference" name="maxDifference" value="99">
+    
+    <label for="step">数字序列的间隔:</label>
+    <input type="number" id="step" name="step" value="1">
+    
+    <button onclick="generateSequence()">生成序列</button>
+    
+    <div id="result"></div>
+    
+    <script>
+        function generateSequence() {
+            const start = parseInt(document.getElementById('start').value);
+            const end = parseInt(document.getElementById('end').value);
+            const separator = document.getElementById('separator').value;
+            const maxDifference = parseInt(document.getElementById('maxDifference').value) || 99;
+            const step = parseInt(document.getElementById('step').value) || 1;
+            
+            if (isNaN(start) || isNaN(end) || isNaN(maxDifference) || isNaN(step)) {
+                alert('请输入有效的初始值、结束值、最大差值和间隔');
+                return;
+            }
+            
+            if (Math.abs(end - start) > maxDifference) {
+                alert('初始值和结束值之间的差值超过了最大允许差值');
+                return;
+            }
+            
+            let result = '';
+            for (let i = start; i <= end; i += step) {
+                result += i + (i + step <= end ? separator : '');
+            }
+            
+            document.getElementById('result').textContent = result;
+        }
+    </script>
+</body>
+</html>

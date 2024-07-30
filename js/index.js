@@ -201,7 +201,7 @@ no1.onclick=function(){
 	no14.onclick=function(){
 		if(yygdzt == 11){
 			rice();
-			nr1.innerHTML=`同颜`;
+			nr1.innerHTML=`童颜`;
 			nr2.innerHTML=`<p>一些好听的童声向音乐</p>`;
 			nr3.innerHTML=`
 			<a target="_blank" rel="noopener noreferrer" href="https://y.music.163.com/m/playlist?id=369086621&userid=1531884862&creatorId=269173945">点此跳转</a>
