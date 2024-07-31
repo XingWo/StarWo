@@ -37,6 +37,9 @@
     <label for="step">数字序列的间隔:</label>
     <input type="number" id="step" name="step" value="1" readonly>
     
+    <label for="fullSequence">完整序列数字:</label>
+    <input type="checkbox" id="fullSequence" name="fullSequence">
+    
     <button onclick="generateSequence()">生成序列</button>
     
     <div id="result"></div>
@@ -49,11 +52,13 @@
 
         // 从本地存储获取缓存值
         window.onload = function() {
-            const cachedSeparator = localStorage.getItem('separator') || '，';
+            const cachedSeparator = localStorage.getItem('separator') || ',';
             const cachedMaxDifference = localStorage.getItem('maxDifference') || 99;
+            const cachedFullSequence = localStorage.getItem('fullSequence') === 'true';
 
             document.getElementById('separator').value = cachedSeparator;
             document.getElementById('maxDifference').value = cachedMaxDifference;
+            document.getElementById('fullSequence').checked = cachedFullSequence;
         };
 
         // 监听键盘事件
@@ -85,9 +90,10 @@
             const maxDifference = parseInt(document.getElementById('maxDifference').value) || 99;
             const step = 1; // 默认间隔为1
             
-            // 缓存间隔字符和最大差值
+            // 缓存间隔字符、最大差值和完整序列状态
             localStorage.setItem('separator', separator);
             localStorage.setItem('maxDifference', maxDifference);
+            localStorage.setItem('fullSequence', document.getElementById('fullSequence').checked);
 
             if (isNaN(start) || isNaN(end) || isNaN(maxDifference)) {
                 alert('请输入有效的初始值、结束值和最大差值');
@@ -103,12 +109,12 @@
             if (start < end) {
                 // 正序生成
                 for (let i = start; i <= end; i += step) {
-                    result += i + (i + step <= end ? separator : '');
+                    result += formatNumber(i) + (i + step <= end ? separator : '');
                 }
             } else {
                 // 倒序生成
                 for (let i = start; i >= end; i -= step) {
-                    result += i + (i - step >= end ? separator : '');
+                    result += formatNumber(i) + (i - step >= end ? separator : '');
                 }
             }
             
@@ -122,6 +128,11 @@
             });
 
             sequenceGenerated = true; // 设置序列已生成标记
+        }
+
+        function formatNumber(num) {
+            const fullSequence = document.getElementById('fullSequence').checked;
+            return fullSequence ? num.toString().padStart(3, '0') : num.toString();
         }
 
         // 点击输入框时清空值（仅在首次点击时）
