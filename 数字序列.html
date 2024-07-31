@@ -29,13 +29,13 @@
     <input type="number" id="end" name="end">
     
     <label for="separator">间隔字符:</label>
-    <input type="text" id="separator" name="separator" value="，">
+    <input type="text" id="separator" name="separator">
     
-    <label for="maxDifference">最大差值 (默认为99):</label>
-    <input type="number" id="maxDifference" name="maxDifference" value="99">
+    <label for="maxDifference">最大差值:</label>
+    <input type="number" id="maxDifference" name="maxDifference">
     
-    <label for="step">数字序列的间隔 (默认为，):</label>
-    <input type="number" id="step" name="step" value="1">
+    <label for="step">数字序列的间隔:</label>
+    <input type="number" id="step" name="step" value="1" readonly>
     
     <button onclick="generateSequence()">生成序列</button>
     
@@ -46,6 +46,15 @@
         document.getElementById('start').focus();
 
         let sequenceGenerated = false; // 标记序列是否已生成
+
+        // 从本地存储获取缓存值
+        window.onload = function() {
+            const cachedSeparator = localStorage.getItem('separator') || '，';
+            const cachedMaxDifference = localStorage.getItem('maxDifference') || 99;
+
+            document.getElementById('separator').value = cachedSeparator;
+            document.getElementById('maxDifference').value = cachedMaxDifference;
+        };
 
         // 监听键盘事件
         document.addEventListener('keydown', function(event) {
@@ -71,12 +80,17 @@
         function generateSequence() {
             const start = parseInt(document.getElementById('start').value);
             const end = parseInt(document.getElementById('end').value);
-            const separator = document.getElementById('separator').value;
+            const separatorInput = document.getElementById('separator');
+            const separator = separatorInput.value || ',';
             const maxDifference = parseInt(document.getElementById('maxDifference').value) || 99;
-            const step = parseInt(document.getElementById('step').value) || 1;
+            const step = 1; // 默认间隔为1
             
-            if (isNaN(start) || isNaN(end) || isNaN(maxDifference) || isNaN(step)) {
-                alert('请输入有效的初始值、结束值、最大差值和间隔');
+            // 缓存间隔字符和最大差值
+            localStorage.setItem('separator', separator);
+            localStorage.setItem('maxDifference', maxDifference);
+
+            if (isNaN(start) || isNaN(end) || isNaN(maxDifference)) {
+                alert('请输入有效的初始值、结束值和最大差值');
                 return;
             }
             
