@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>数字序列生成器</title>
+    <title>star数字序列生成器</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -23,7 +23,7 @@
 <body>
     <h1>数字序列生成器</h1>
     <label for="start">初始值:</label>
-    <input type="number" id="start" name="start">
+    <input type="number" id="start" name="start" autofocus>
     
     <label for="end">结束值:</label>
     <input type="number" id="end" name="end">
@@ -34,7 +34,7 @@
     <label for="maxDifference">最大差值 (默认为99):</label>
     <input type="number" id="maxDifference" name="maxDifference" value="99">
     
-    <label for="step">数字序列的间隔:</label>
+    <label for="step">数字序列的间隔 (默认为，):</label>
     <input type="number" id="step" name="step" value="1">
     
     <button onclick="generateSequence()">生成序列</button>
@@ -42,6 +42,32 @@
     <div id="result"></div>
     
     <script>
+        // 默认焦点在初始值输入框
+        document.getElementById('start').focus();
+
+        let sequenceGenerated = false; // 标记序列是否已生成
+
+        // 监听键盘事件
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                const startInput = document.getElementById('start');
+                const endInput = document.getElementById('end');
+                
+                // 如果初始值为空，焦点切换至初始值输入框
+                if (!startInput.value) {
+                    startInput.focus();
+                } 
+                // 如果结束值为空，焦点切换至结束值输入框
+                else if (!endInput.value) {
+                    endInput.focus();
+                } 
+                // 如果初始值和结束值都存在，生成序列
+                else {
+                    generateSequence();
+                }
+            }
+        });
+
         function generateSequence() {
             const start = parseInt(document.getElementById('start').value);
             const end = parseInt(document.getElementById('end').value);
@@ -55,17 +81,51 @@
             }
             
             if (Math.abs(end - start) > maxDifference) {
-                alert('初始值和结束值之间的差值超过了最大允许差值');
+                alert('最大差值超过设定值，请检查输入值');
                 return;
             }
             
             let result = '';
-            for (let i = start; i <= end; i += step) {
-                result += i + (i + step <= end ? separator : '');
+            if (start < end) {
+                // 正序生成
+                for (let i = start; i <= end; i += step) {
+                    result += i + (i + step <= end ? separator : '');
+                }
+            } else {
+                // 倒序生成
+                for (let i = start; i >= end; i -= step) {
+                    result += i + (i - step >= end ? separator : '');
+                }
             }
             
             document.getElementById('result').textContent = result;
+
+            // 复制结果到剪切板
+            navigator.clipboard.writeText(result).then(() => {
+                alert('序列已复制到剪切板！');
+            }).catch(err => {
+                console.log('复制失败:', err);
+            });
+
+            sequenceGenerated = true; // 设置序列已生成标记
         }
+
+        // 点击输入框时清空值（仅在首次点击时）
+        document.getElementById('start').addEventListener('click', function() {
+            if (sequenceGenerated) {
+                this.value = '';
+                document.getElementById('end').value = '';
+                sequenceGenerated = false; // 重置标记
+            }
+        });
+
+        document.getElementById('end').addEventListener('click', function() {
+            if (sequenceGenerated) {
+                this.value = '';
+                document.getElementById('start').value = '';
+                sequenceGenerated = false; // 重置标记
+            }
+        });
     </script>
 </body>
 </html>
