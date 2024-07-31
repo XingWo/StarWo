@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>star数字序列生成器</title>
+    <title>数字序列生成器</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -23,16 +23,16 @@
 <body>
     <h1>数字序列生成器</h1>
     <label for="start">初始值:</label>
-    <input type="number" id="start" name="start" autofocus>
+    <input type="text" id="start" name="start" autofocus>
     
     <label for="end">结束值:</label>
-    <input type="number" id="end" name="end">
+    <input type="text" id="end" name="end">
     
     <label for="separator">间隔字符:</label>
-    <input type="text" id="separator" name="separator">
+    <input type="text" id="separator" name="separator" value="，">
     
     <label for="maxDifference">最大差值:</label>
-    <input type="number" id="maxDifference" name="maxDifference">
+    <input type="number" id="maxDifference" name="maxDifference" value="99">
     
     <label for="step">数字序列的间隔:</label>
     <input type="number" id="step" name="step" value="1" readonly>
@@ -83,10 +83,9 @@
         });
 
         function generateSequence() {
-            const start = parseInt(document.getElementById('start').value);
-            const end = parseInt(document.getElementById('end').value);
-            const separatorInput = document.getElementById('separator');
-            const separator = separatorInput.value || ',';
+            const startInput = document.getElementById('start').value;
+            const endInput = document.getElementById('end').value;
+            const separator = document.getElementById('separator').value || '，';
             const maxDifference = parseInt(document.getElementById('maxDifference').value) || 99;
             const step = 1; // 默认间隔为1
             
@@ -95,6 +94,9 @@
             localStorage.setItem('maxDifference', maxDifference);
             localStorage.setItem('fullSequence', document.getElementById('fullSequence').checked);
 
+            const start = parseInt(startInput, 10);
+            const end = parseInt(endInput, 10);
+            
             if (isNaN(start) || isNaN(end) || isNaN(maxDifference)) {
                 alert('请输入有效的初始值、结束值和最大差值');
                 return;
@@ -106,15 +108,17 @@
             }
             
             let result = '';
+            const maxLength = Math.max(startInput.length, endInput.length); // 计算最大位数
+
             if (start < end) {
                 // 正序生成
                 for (let i = start; i <= end; i += step) {
-                    result += formatNumber(i) + (i + step <= end ? separator : '');
+                    result += formatNumber(i, maxLength) + (i + step <= end ? separator : '');
                 }
             } else {
                 // 倒序生成
                 for (let i = start; i >= end; i -= step) {
-                    result += formatNumber(i) + (i - step >= end ? separator : '');
+                    result += formatNumber(i, maxLength) + (i - step >= end ? separator : '');
                 }
             }
             
@@ -130,9 +134,9 @@
             sequenceGenerated = true; // 设置序列已生成标记
         }
 
-        function formatNumber(num) {
+        function formatNumber(num, maxLength) {
             const fullSequence = document.getElementById('fullSequence').checked;
-            return fullSequence ? num.toString().padStart(3, '0') : num.toString();
+            return fullSequence ? num.toString().padStart(maxLength, '0') : num.toString().replace(/^0+/, ''); // 去掉前导零
         }
 
         // 点击输入框时清空值（仅在首次点击时）
