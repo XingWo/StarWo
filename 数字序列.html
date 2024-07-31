@@ -29,7 +29,7 @@
     <input type="text" id="end" name="end">
     
     <label for="separator">间隔字符:</label>
-    <input type="text" id="separator" name="separator" value="，">
+    <input type="text" id="separator" name="separator" value=" ，">
     
     <label for="maxDifference">最大差值:</label>
     <input type="number" id="maxDifference" name="maxDifference" value="99">
@@ -52,7 +52,7 @@
 
         // 从本地存储获取缓存值
         window.onload = function() {
-            const cachedSeparator = localStorage.getItem('separator') || '，';
+            const cachedSeparator = localStorage.getItem('separator') || ' ，';
             const cachedMaxDifference = localStorage.getItem('maxDifference') || 99;
             const cachedFullSequence = localStorage.getItem('fullSequence') === 'true';
 
