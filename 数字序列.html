@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>数字序列生成器</title>
+    <title>Star数字序列生成器</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,7 +18,7 @@
             white-space: pre-wrap; /* 保证长文本换行 */
             word-wrap: break-word; /* 保证长单词换行 */
         }
-        h1,.result{
+        h1,#result{
 			color: transparent;
 			background-image: linear-gradient(-45deg,#00ffff,transparent,transparent,#00ffff,transparent,transparent,#00ffff,transparent,transparent,#00ffff,transparent,transparent,#00ffff,transparent,transparent,#00ffff,transparent,transparent,#00ffff,transparent,transparent,#00ffff,transparent,transparent);
 			-webkit-background-clip: text;
@@ -27,10 +27,10 @@
 		}
 		@keyframes backgroundgif{/* 移动背景画布位置来完成动画 */
 			0%{
-				background-position: 100% 100%;
+				background-position: 0% 0%;
 			}
 			100%{
-				background-position: 0% 0%;
+				background-position: 100% 100%;
 			}
 		}
     </style>
