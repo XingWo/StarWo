@@ -100,7 +100,7 @@
         function generateSequence() {
             const startInput = document.getElementById('start').value;
             const endInput = document.getElementById('end').value;
-            const separator = document.getElementById('separator').value || '，';
+            let separator = document.getElementById('separator').value || '，';
             const maxDifference = parseInt(document.getElementById('maxDifference').value) || 99;
             const step = 1; // 默认间隔为1
             
@@ -124,6 +124,9 @@
             
             let result = '';
             const maxLength = Math.max(startInput.length, endInput.length); // 计算最大位数
+
+            // 将 \n 替换为实际的换行符
+            separator = separator.replace(/\\n/g, '\n');
 
             if (start < end) {
                 // 正序生成
