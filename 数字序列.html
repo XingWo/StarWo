@@ -44,7 +44,7 @@
     <input type="text" id="end" name="end">
     
     <label for="separator">间隔字符:</label>
-    <input type="text" id="separator" name="separator" value=" ，">
+    <textarea id="separator" name="separator" rows="3" placeholder="默认为，" style="width: 170px; height: 18px;">，</textarea>
     
     <label for="maxDifference">最大差值:</label>
     <input type="number" id="maxDifference" name="maxDifference" value="99">
@@ -142,11 +142,17 @@
             
             document.getElementById('result').textContent = result;
 
-            // 复制结果到剪切板
-            navigator.clipboard.writeText(result).then(() => {
-                alert('序列已复制到剪切板！');
-            }).catch(err => {
-                console.log('复制失败:', err);
+            // 使用 Promise 确保在生成序列后再复制
+            new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(result);
+                }, 0); // 0 毫秒延迟，确保代码在下一次事件循环中执行
+            }).then((result) => {
+                navigator.clipboard.writeText(result).then(() => {
+                    alert('序列已复制到剪切板！');
+                }).catch(err => {
+                    console.log('复制失败:', err);
+                });
             });
 
             sequenceGenerated = true; // 设置序列已生成标记
