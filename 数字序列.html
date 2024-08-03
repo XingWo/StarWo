@@ -9,7 +9,7 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-        label, input {
+        label, input, textarea {
             display: block;
             margin: 10px 0;
         }
@@ -50,7 +50,7 @@
     <input type="number" id="maxDifference" name="maxDifference" value="99">
     
     <label for="step">数字序列的间隔:</label>
-    <input type="number" id="step" name="step" value="1" readonly>
+    <input type="number" id="step" name="step" value="1">
     
     <label for="fullSequence">完整序列数字:</label>
     <input type="checkbox" id="fullSequence" name="fullSequence">
@@ -68,11 +68,13 @@
         // 从本地存储获取缓存值
         window.onload = function() {
             const cachedSeparator = localStorage.getItem('separator') || ' ，';
+	    const cachedStep = localStorage.getItem('step') || 1;
             const cachedMaxDifference = localStorage.getItem('maxDifference') || 99;
             const cachedFullSequence = localStorage.getItem('fullSequence') === 'true';
 
             document.getElementById('separator').value = cachedSeparator;
             document.getElementById('maxDifference').value = cachedMaxDifference;
+	    document.getElementById('step').value = cachedStep;
             document.getElementById('fullSequence').checked = cachedFullSequence;
         };
 
@@ -102,18 +104,19 @@
             let endInput = document.getElementById('end').value.trim();
             let separator = document.getElementById('separator').value || '，';
             const maxDifference = parseInt(document.getElementById('maxDifference').value.trim()) || 99;
-            const step = 1; // 默认间隔为1
+	    const step = parseInt(document.getElementById('step').value) || 1;
             
-            // 缓存间隔字符、最大差值和完整序列状态
+            // 缓存间隔字符、最大差值、间隔值和完整序列状态
             localStorage.setItem('separator', separator);
             localStorage.setItem('maxDifference', maxDifference);
+	    localStorage.setItem('step', step);
             localStorage.setItem('fullSequence', document.getElementById('fullSequence').checked);
 
             const start = parseInt(startInput, 10);
             const end = parseInt(endInput, 10);
             
-            if (isNaN(start) || isNaN(end) || isNaN(maxDifference)) {
-                alert('请输入有效的初始值、结束值和最大差值');
+            if (isNaN(start) || isNaN(end) || isNaN(maxDifference) || isNaN(step)) {
+                alert('请输入有效的初始值、结束值、最大差值和间隔值');
                 return;
             }
             
