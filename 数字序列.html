@@ -100,8 +100,8 @@
         });
 
         function generateSequence() {
-            let startInput = document.getElementById('start').value.trim();
-            let endInput = document.getElementById('end').value.trim();
+            let startInput = document.getElementById('start').value.trim().replace(/\D/g, '');
+            let endInput = document.getElementById('end').value.trim().replace(/\D/g, '');
             let separator = document.getElementById('separator').value || '，';
             const maxDifference = parseInt(document.getElementById('maxDifference').value.trim()) || 99;
 	    const step = parseInt(document.getElementById('step').value) || 1;
