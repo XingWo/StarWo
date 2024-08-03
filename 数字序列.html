@@ -98,10 +98,10 @@
         });
 
         function generateSequence() {
-            const startInput = document.getElementById('start').value;
-            const endInput = document.getElementById('end').value;
+            let startInput = document.getElementById('start').value.trim();
+            let endInput = document.getElementById('end').value.trim();
             let separator = document.getElementById('separator').value || '，';
-            const maxDifference = parseInt(document.getElementById('maxDifference').value) || 99;
+            const maxDifference = parseInt(document.getElementById('maxDifference').value.trim()) || 99;
             const step = 1; // 默认间隔为1
             
             // 缓存间隔字符、最大差值和完整序列状态
