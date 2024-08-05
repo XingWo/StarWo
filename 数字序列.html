@@ -36,6 +36,9 @@
 				background-position: 100% 100%;
 			}
 		}
+		#settings {
+	            display: none;
+	        }
     </style>
 </head>
 <body>
@@ -45,18 +48,22 @@
     
     <label for="end">结束值:</label>
     <input type="text" id="end" name="end">
-    
-    <label for="separator">间隔字符:</label>
-    <textarea id="separator" name="separator" rows="3" placeholder="默认为，" style="width: 170px; height: 18px;">，</textarea>
-    
-    <label for="maxDifference">最大差值:</label>
-    <input type="number" id="maxDifference" name="maxDifference" value="99">
-    
-    <label for="step">数字序列的间隔:</label>
-    <input type="number" id="step" name="step" value="1">
-    
-    <label for="fullSequence">完整序列数字:</label>
-    <input type="checkbox" id="fullSequence" name="fullSequence">
+
+	<div id="settings">
+	    <label for="separator">间隔字符:</label>
+	    <textarea id="separator" name="separator" rows="3" placeholder="默认为，" style="width: 170px; height: 18px;">，</textarea>
+	    
+	    <label for="maxDifference">最大差值:</label>
+	    <input type="number" id="maxDifference" name="maxDifference" value="99">
+	    
+	    <label for="step">数字序列的间隔:</label>
+	    <input type="number" id="step" name="step" value="1">
+	    
+	    <label for="fullSequence">完整序列数字:</label>
+	    <input type="checkbox" id="fullSequence" name="fullSequence">
+	</div>
+
+	<button id="settingsButton" onclick="toggleSettings()">设置</button>
     
     <button onclick="generateSequence()">生成序列</button>
     
@@ -70,14 +77,14 @@
 
         // 从本地存储获取缓存值
         window.onload = function() {
-            const cachedSeparator = localStorage.getItem('separator') || ' ，';
-	    const cachedStep = localStorage.getItem('step') || 1;
+            const cachedSeparator = localStorage.getItem('separator') || '，';
+            const cachedStep = localStorage.getItem('step') || 1;
             const cachedMaxDifference = localStorage.getItem('maxDifference') || 99;
             const cachedFullSequence = localStorage.getItem('fullSequence') === 'true';
 
             document.getElementById('separator').value = cachedSeparator;
             document.getElementById('maxDifference').value = cachedMaxDifference;
-	    document.getElementById('step').value = cachedStep;
+            document.getElementById('step').value = cachedStep;
             document.getElementById('fullSequence').checked = cachedFullSequence;
         };
 
@@ -102,18 +109,40 @@
             }
         });
 
+        function toggleSettings() {
+            const settingsDiv = document.getElementById('settings');
+            const settingsButton = document.getElementById('settingsButton');
+            if (settingsDiv.style.display === 'block') {
+                settingsDiv.style.display = 'none';
+                settingsButton.textContent = '设置';
+		saveSettings();
+            } else {
+                settingsDiv.style.display = 'block';
+                settingsButton.textContent = '保存';
+            }
+        }
+
+        function saveSettings() {
+            const separator = document.getElementById('separator').value;
+            const maxDifference = parseInt(document.getElementById('maxDifference').value.trim()) || 99;
+            const step = parseInt(document.getElementById('step').value) || 1;
+            const fullSequence = document.getElementById('fullSequence').checked;
+
+            localStorage.setItem('separator', separator);
+            localStorage.setItem('maxDifference', maxDifference);
+            localStorage.setItem('step', step);
+            localStorage.setItem('fullSequence', fullSequence);
+        }
+
         function generateSequence() {
             let startInput = document.getElementById('start').value.trim().replace(/\D/g, '');
             let endInput = document.getElementById('end').value.trim().replace(/\D/g, '');
             let separator = document.getElementById('separator').value || '，';
             const maxDifference = parseInt(document.getElementById('maxDifference').value.trim()) || 99;
-	    const step = parseInt(document.getElementById('step').value) || 1;
+            const step = parseInt(document.getElementById('step').value) || 1;
             
             // 缓存间隔字符、最大差值、间隔值和完整序列状态
-            localStorage.setItem('separator', separator);
-            localStorage.setItem('maxDifference', maxDifference);
-	    localStorage.setItem('step', step);
-            localStorage.setItem('fullSequence', document.getElementById('fullSequence').checked);
+            saveSettings();
 
             const start = parseInt(startInput, 10);
             const end = parseInt(endInput, 10);
