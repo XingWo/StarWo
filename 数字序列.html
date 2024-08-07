@@ -182,7 +182,7 @@
             new Promise((resolve) => {
                 setTimeout(() => {
                     resolve(result);
-                }, 0); // 0 毫秒延迟，确保代码在下一次事件循环中执行
+                }, 300); // 300 毫秒延迟，确保代码在下一次事件循环中执行
             }).then((result) => {
                 navigator.clipboard.writeText(result).then(() => {
                     alert('序列已复制到剪切板！');
