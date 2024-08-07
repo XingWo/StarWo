@@ -184,6 +184,7 @@
                     resolve(result);
                 }, 300); // 300 毫秒延迟，确保代码在下一次事件循环中执行
             }).then((result) => {
+		result = document.getElementById('result').textContent;
                 navigator.clipboard.writeText(result).then(() => {
                     alert('序列已复制到剪切板！');
                 }).catch(err => {
