@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>抽奖功能</title>
+<style>
+  body {
+    display: flex;
+  }
+  #draw-container {
+    flex: 70%;
+  }
+  #record-container {
+    flex: 30%;
+    margin-left: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    height: 500px;
+    overflow-y: auto;
+  }
+  .draw-item {
+    margin-bottom: 10px;
+  }
+  input[type="number"] {
+    width: 50px;
+  }
+</style>
+</head>
+<body>
+
+<div id="draw-container">
+  <div class="draw-item">
+    <input type="text" id="name" placeholder="获奖人/奖项">
+    <input type="number" id="weight" placeholder="权重" value="1">
+    <button onclick="addDrawItem()">添加新的抽奖项</button>
+  </div>
+  <button onclick="startDraw()">开始抽奖</button>
+  <div id="draw-items"></div>
+</div>
+
+<div id="record-container">
+  <h3>抽奖记录</h3>
+  <ul id="draw-record"></ul>
+</div>
+
+<script>
+let drawItems = [];
+
+function addDrawItem() {
+  const name = document.getElementById('name').value;
+  const weight = parseInt(document.getElementById('weight').value, 10);
+  if (name && !isNaN(weight)) {
+    drawItems.push({ name, weight });
+    document.getElementById('draw-items').innerHTML += `
+      <div class="draw-item">
+        <input type="text" value="${name}" readonly>
+        <input type="number" value="${weight}" readonly>
+        <button onclick="removeDrawItem(this)">删除</button>
+      </div>
+    `;
+    document.getElementById('name').value = '';
+    document.getElementById('weight').value = '1';
+  } else {
+    alert('请输入有效内容');
+  }
+}
+
+function removeDrawItem(button) {
+  const index = Array.from(button.parentNode.parentNode.children).indexOf(button.parentNode);
+  drawItems.splice(index, 1);
+  button.parentNode.remove();
+}
+
+function startDraw() {
+  const record = document.getElementById('draw-record');
+  let totalWeight = drawItems.reduce((acc, item) => acc + item.weight, 0);
+  let random = Math.random() * totalWeight | 0;
+  for (let i = 0; i < drawItems.length; i++) {
+    if (random < drawItems[i].weight) {
+      record.innerHTML += `<li>${drawItems[i].name} 被抽中！</li>`;
+      break;
+    }
+    random -= drawItems[i].weight;
+  }
+}
+
+</script>
+
+</body>
+</html>
