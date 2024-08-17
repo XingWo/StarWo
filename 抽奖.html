@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>抽奖功能</title>
+<title>star抽奖姬</title>
 <style>
   body {
     display: flex;
+    font-family: Arial, sans-serif;
   }
   #draw-container {
     flex: 70%;
@@ -19,6 +20,19 @@
     height: 500px;
     overflow-y: auto;
   }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
   .draw-item {
     margin-bottom: 10px;
   }
@@ -30,13 +44,24 @@
 <body>
 
 <div id="draw-container">
+  <h3>抽奖项配置</h3>
+  
   <div class="draw-item">
     <input type="text" id="name" placeholder="获奖人/奖项">
     <input type="number" id="weight" placeholder="权重" value="1">
     <button onclick="addDrawItem()">添加新的抽奖项</button>
   </div>
   <button onclick="startDraw()">开始抽奖</button>
-  <div id="draw-items"></div>
+<table id="draw-items-table">
+    <thead>
+      <tr>
+        <th>获奖人/奖项</th>
+        <th>权重</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody id="draw-items"></tbody>
+  </table>
 </div>
 
 <div id="record-container">
@@ -50,15 +75,15 @@ let drawItems = [];
 function addDrawItem() {
   const name = document.getElementById('name').value;
   const weight = parseInt(document.getElementById('weight').value, 10);
-  if (name && !isNaN(weight)) {
+  if (name && !isNaN(weight) && weight > 0) {
     drawItems.push({ name, weight });
-    document.getElementById('draw-items').innerHTML += `
-      <div class="draw-item">
-        <input type="text" value="${name}" readonly>
-        <input type="number" value="${weight}" readonly>
-        <button onclick="removeDrawItem(this)">删除</button>
-      </div>
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${name}</td>
+      <td>${weight}</td>
+      <td><button onclick="removeDrawItem(this)">删除</button></td>
     `;
+    document.getElementById('draw-items').appendChild(row);
     document.getElementById('name').value = '';
     document.getElementById('weight').value = '1';
   } else {
@@ -67,9 +92,10 @@ function addDrawItem() {
 }
 
 function removeDrawItem(button) {
-  const index = Array.from(button.parentNode.parentNode.children).indexOf(button.parentNode);
+  const row = button.parentNode.parentNode;
+  const index = Array.from(document.getElementById('draw-items').children).indexOf(row);
   drawItems.splice(index, 1);
-  button.parentNode.remove();
+  row.remove();
 }
 
 function startDraw() {
