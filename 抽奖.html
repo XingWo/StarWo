@@ -39,6 +39,10 @@
   input[type="number"] {
     width: 50px;
   }
+  .strikethrough {
+    text-decoration: line-through;
+    color: red; /* 设置字体颜色为红色 */
+  }
 </style>
 </head>
 <body>
@@ -51,8 +55,16 @@
     <input type="number" id="weight" placeholder="权重" value="1">
     <button onclick="addDrawItem()">添加新的抽奖项</button>
   </div>
+  
+  <div>
+    <label>
+      <input type="checkbox" id="allow-repeat" checked>
+      允许重复抽奖
+    </label>
+  </div>
+  
   <button onclick="startDraw()">开始抽奖</button>
-<table id="draw-items-table">
+  <table id="draw-items-table">
     <thead>
       <tr>
         <th>获奖人/奖项</th>
@@ -71,6 +83,7 @@
 
 <script>
 let drawItems = [];
+let drawnItems = [];
 
 function addDrawItem() {
   const name = document.getElementById('name').value;
@@ -98,13 +111,47 @@ function removeDrawItem(button) {
   row.remove();
 }
 
+function resetStyles() {
+  const rows = document.getElementById('draw-items').children;
+  for (let j = 0; j < rows.length; j++) {
+    rows[j].children[0].classList.remove('strikethrough');
+  }
+}
+
 function startDraw() {
   const record = document.getElementById('draw-record');
+  
+  // 重置样式
+  if (document.getElementById('allow-repeat').checked) {
+    resetStyles();
+    drawnItems = []; // 清空已抽中的项
+  }
+
   let totalWeight = drawItems.reduce((acc, item) => acc + item.weight, 0);
   let random = Math.random() * totalWeight | 0;
+
   for (let i = 0; i < drawItems.length; i++) {
     if (random < drawItems[i].weight) {
+      if (!document.getElementById('allow-repeat').checked && drawnItems.includes(drawItems[i].name)) {
+        // 如果不允许重复抽奖且已经抽中过该项，则跳过
+        continue;
+      }
+      
+      // 添加到抽奖记录
       record.innerHTML += `<li>${drawItems[i].name} 被抽中！</li>`;
+      
+      // 如果不允许重复抽奖，标记为已抽中
+      if (!document.getElementById('allow-repeat').checked) {
+        drawnItems.push(drawItems[i].name);
+        // 在表格中添加删除线和红色字体
+        const rows = document.getElementById('draw-items').children;
+        for (let j = 0; j < rows.length; j++) {
+          if (rows[j].children[0].innerText === drawItems[i].name) {
+            rows[j].children[0].classList.add('strikethrough');
+            break;
+          }
+        }
+      }
       break;
     }
     random -= drawItems[i].weight;
