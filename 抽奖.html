@@ -141,53 +141,77 @@ function startDraw() {
     drawnItems = []; // 清空已抽中的项
   }
 
-  let totalWeight = drawItems.reduce((acc, item) => {
-    return drawnItems.includes(item.name) ? acc : acc + item.weight; // 只计算未抽中的项
-  }, 0);
+  // 生成权重索引数组
+  const indices = [];
+  
+  // 创建权重索引数组
+  drawItems.forEach((item, index) => {
+    if (document.getElementById('allow-repeat').checked || !drawnItems.includes(item.name)) {
+      for (let i = 0; i < item.weight; i++) {
+        indices.push(index); // 将每个奖项的索引添加到数组中
+      }
+    }
+  });
 
-  if (totalWeight === 0) {
+  // 检查是否还有可抽奖项
+  if (indices.length === 0) {
     alert('所有奖项均已抽中！');
     return;
   }
 
-  let random = Math.random() * totalWeight | 0;
+  // 随机打乱索引数组
+  shuffleArray(indices);
 
-  for (let i = 0; i < drawItems.length; i++) {
-    if (drawnItems.includes(drawItems[i].name)) {
-      continue; // 跳过已抽中的项
-    }
-    
-    if (random < drawItems[i].weight) {
-      // 添加到抽奖记录
-      const drawTime = new Date().toLocaleString();
-      record.innerHTML += `<li>${drawItems[i].name} 被抽中！</li>`;
-      drawResults.push({ name: drawItems[i].name, time: drawTime, randomValue: random });
-      
-      // 自动导出抽奖记录
-      if (document.getElementById('auto-export').checked) {
-        exportDrawRecord();
-      }
-      
-      // 在表格中添加删除线和红色字体
-      const rows = document.getElementById('draw-items').children;
-      for (let j = 0; j < rows.length; j++) {
-        if (rows[j].children[0].innerText === drawItems[i].name) {
-          if (document.getElementById('allow-repeat').checked) {
-            rows[j].children[0].style.color = 'gold'; // 设置字体颜色为金色
-          } else {
-			// 标记为已抽中
-			drawnItems.push(drawItems[i].name);
-            rows[j].children[0].classList.add('strikethrough'); // 添加删除线
-            rows[j].children[0].style.color = 'red'; // 设置字体颜色为红色
-          }
-          break;
-        }
+  // 生成一个随机数
+  const randomIndex = Math.floor(Math.random() * indices.length);
+  const selectedIndex = indices[randomIndex]; // 根据随机数选择索引
+
+  // 获取对应的奖项
+  const selectedItem = drawItems[selectedIndex];
+
+  // 添加到抽奖记录
+  const drawTime = new Date().toLocaleString();
+  const newRecordItem = `<li style="color: gold;">${selectedItem.name} 被抽中！</li>`;
+  record.innerHTML = newRecordItem + record.innerHTML; // 将新记录添加到最上面
+  drawResults.push({ name: selectedItem.name, time: drawTime });
+
+  // 自动导出抽奖记录
+  if (document.getElementById('auto-export').checked) {
+    exportDrawRecord();
+  }
+
+  // 在表格中添加删除线和红色字体
+  const rows = document.getElementById('draw-items').children;
+  for (let j = 0; j < rows.length; j++) {
+    if (rows[j].children[0].innerText === selectedItem.name) {
+      if (document.getElementById('allow-repeat').checked) {
+        rows[j].children[0].style.color = 'gold'; // 设置字体颜色为金色
+      } else {
+        // 标记为已抽中
+        drawnItems.push(selectedItem.name);
+        rows[j].children[0].classList.add('strikethrough'); // 添加删除线
+        rows[j].children[0].style.color = 'red'; // 设置字体颜色为红色
       }
       break;
     }
-    random -= drawItems[i].weight;
+  }
+
+  // 恢复历史记录颜色为黑色
+  const historyItems = record.getElementsByTagName('li');
+  for (let k = 1; k < historyItems.length; k++) { // 从1开始，跳过最新的记录
+    historyItems[k].style.color = 'black';
   }
 }
+
+// 随机打乱数组的函数
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]]; // 交换元素
+  }
+  console.log("抽奖前打乱顺序为"+array);
+}
+
 
 function exportDrawRecord() {
   const csvContent = "data:text/csv;charset=utf-8," 
