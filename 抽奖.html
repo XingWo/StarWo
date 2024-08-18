@@ -128,6 +128,7 @@ function resetStyles() {
   const rows = document.getElementById('draw-items').children;
   for (let j = 0; j < rows.length; j++) {
     rows[j].children[0].classList.remove('strikethrough');
+    rows[j].children[0].style.color = ''; // 重置字体颜色
   }
 }
 
@@ -140,16 +141,23 @@ function startDraw() {
     drawnItems = []; // 清空已抽中的项
   }
 
-  let totalWeight = drawItems.reduce((acc, item) => acc + item.weight, 0);
+  let totalWeight = drawItems.reduce((acc, item) => {
+    return drawnItems.includes(item.name) ? acc : acc + item.weight; // 只计算未抽中的项
+  }, 0);
+
+  if (totalWeight === 0) {
+    alert('所有奖项均已抽中！');
+    return;
+  }
+
   let random = Math.random() * totalWeight | 0;
 
   for (let i = 0; i < drawItems.length; i++) {
+    if (drawnItems.includes(drawItems[i].name)) {
+      continue; // 跳过已抽中的项
+    }
+    
     if (random < drawItems[i].weight) {
-      if (!document.getElementById('allow-repeat').checked && drawnItems.includes(drawItems[i].name)) {
-        // 如果不允许重复抽奖且已经抽中过该项，则跳过
-        continue;
-      }
-      
       // 添加到抽奖记录
       const drawTime = new Date().toLocaleString();
       record.innerHTML += `<li>${drawItems[i].name} 被抽中！</li>`;
@@ -160,16 +168,19 @@ function startDraw() {
         exportDrawRecord();
       }
       
-      // 如果不允许重复抽奖，标记为已抽中
-      if (!document.getElementById('allow-repeat').checked) {
-        drawnItems.push(drawItems[i].name);
-        // 在表格中添加删除线和红色字体
-        const rows = document.getElementById('draw-items').children;
-        for (let j = 0; j < rows.length; j++) {
-          if (rows[j].children[0].innerText === drawItems[i].name) {
-            rows[j].children[0].classList.add('strikethrough');
-            break;
+      // 在表格中添加删除线和红色字体
+      const rows = document.getElementById('draw-items').children;
+      for (let j = 0; j < rows.length; j++) {
+        if (rows[j].children[0].innerText === drawItems[i].name) {
+          if (document.getElementById('allow-repeat').checked) {
+            rows[j].children[0].style.color = 'gold'; // 设置字体颜色为金色
+          } else {
+			// 标记为已抽中
+			drawnItems.push(drawItems[i].name);
+            rows[j].children[0].classList.add('strikethrough'); // 添加删除线
+            rows[j].children[0].style.color = 'red'; // 设置字体颜色为红色
           }
+          break;
         }
       }
       break;
