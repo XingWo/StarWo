@@ -88,6 +88,7 @@
       <tr>
         <th>获奖人/奖项</th>
         <th>权重</th>
+        <th>备注</th>
         <th>操作</th>
       </tr>
     </thead>
@@ -110,11 +111,16 @@ function addDrawItem() {
   const weight = parseInt(document.getElementById('weight').value, 10);
   if (name && !isNaN(weight) && weight > 0) {
     drawItems.push({ name, weight });
+	
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${name}</td>
       <td>${weight}</td>
-      <td><button onclick="removeDrawItem(this)">删除</button></td>
+      <td></td>
+      <td>
+        <button onclick="editDrawItem(this)">编辑</button>
+        <button onclick="removeDrawItem(this)">删除</button>
+      </td>
     `;
     document.getElementById('draw-items').appendChild(row);
     document.getElementById('name').value = '';
@@ -224,10 +230,10 @@ function shuffleArray(array) {
 
 function exportDrawRecord() {
   // 添加表格头
-  const header = "中奖人/项,中奖时间,中奖值,打乱顺序\n"; // 添加打乱顺序的列头
+  const header = "中奖人/项,中奖时间,打乱顺序,中奖值\n"; // 添加打乱顺序的列头
   const csvContent = "data:text/csv;charset=utf-8,\uFEFF" 
     + header // 添加表头
-    + drawResults.map(e => `${e.name},${e.time},${e.randomValue},${e.arrays.join(';')}`).join("\n"); // 添加打乱顺序
+    + drawResults.map(e => `${e.name},${e.time},${e.arrays.join(';')},${e.randomValue}`).join("\n"); // 添加打乱顺序
 
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
@@ -264,11 +270,16 @@ function importConfig(event) {
         const drawItemsTable = document.getElementById('draw-items');
         drawItemsTable.innerHTML = ''; // 清空当前表格
         importedItems.forEach(item => {
+		  const remark = item.remark || ''; // 如果没有remark，使用空字符串
           const row = document.createElement('tr');
           row.innerHTML = `
             <td>${item.name}</td>
             <td>${item.weight}</td>
-            <td><button onclick="removeDrawItem(this)">删除</button></td>
+			<td>${remark}</td>
+            <td>
+              <button onclick="editDrawItem(this)">编辑</button>
+              <button onclick="removeDrawItem(this)">删除</button>
+            </td>
           `;
           drawItemsTable.appendChild(row);
         });
@@ -284,6 +295,7 @@ function toggleAutoExport() {
   const autoExportChecked = document.getElementById('auto-export').checked;
   document.getElementById('export-record-btn').style.display = autoExportChecked ? 'none' : 'inline-block';
 }
+
 
 </script>
 
