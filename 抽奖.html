@@ -127,9 +127,9 @@
         <th>ID</th>
         <th>获奖人/奖项</th>
         <th>权重</th>
+        <th>上级ID</th>
         <th>备注</th>
         <th>操作</th>
-        <th>上级ID</th>
       </tr>
     </thead>
     <tbody id="draw-items"></tbody>
@@ -355,8 +355,12 @@ function startDraw() {
   const selectedItem = n0Items[selectedIndex]; // 获取对应的 N0 项
 
   // 添加到抽奖记录
-  const drawResults = []; // 用于存储所有抽中的项
-  drawResults.push(selectedItem.name); // 添加抽中的 N0 项
+  const drawResultses = []; // 用于存储所有抽中的项
+  const randomIndexes = []; // 用于存储所有
+  const indicesd = []; // 用于存储所有
+  drawResultses.push(selectedItem.name); // 添加抽中的 N0 项
+  randomIndexes.push(randomIndex);
+  indicesd.push(indices);
 
   // 递归抽取下级项
   function drawSubItems(parentId) {
@@ -387,7 +391,9 @@ function startDraw() {
     const selectedSubIndex = subIndices[randomSubIndex]; // 根据随机数选择索引
     const selectedSubItem = subItems[selectedSubIndex]; // 获取对应的下级项
 
-    drawResults.push(selectedSubItem.name); // 添加抽中的下级项
+    drawResultses.push(selectedSubItem.name); // 添加抽中的下级项
+    randomIndexes.push(randomSubIndex);
+    indicesd.push(subIndices);
     drawSubItems(selectedSubItem.id); // 递归调用，继续抽取下级项
   }
 
@@ -395,11 +401,13 @@ function startDraw() {
 
   // 输出结果
   const drawTime = new Date().toLocaleString();
-  const resultMessage = `${drawResults.join(' ')} 被抽中！`;
-  const newRecordItem = `<li style="color: gold;">${resultMessage}</li>`;
+  const resultMessage = `${drawResultses.join(' ')}`;
+  const redxdoin = `${randomIndexes.join(' ')}`;
+  const arrayes = `${indicesd.join(' ').replace(/,/g, ';')}`;
+  const newRecordItem = `<li style="color: gold;">${resultMessage} 被抽中！</li>`;
   record.innerHTML = newRecordItem + record.innerHTML; // 将新记录添加到最上面
-  drawResults.push({ name: resultMessage, time: drawTime});
-console.log({name: resultMessage, time: drawTime});
+  drawResults.push({ name: resultMessage, time: drawTime, randomValue: redxdoin ,  arrays: arrayes});
+console.log({ name: resultMessage, time: drawTime, randomValue: redxdoin ,  arrays: arrayes});
   // 自动导出抽奖记录
   if (document.getElementById('auto-export').checked) {
     exportDrawRecord();
@@ -437,10 +445,10 @@ function shuffleArray(array) {
 
 function exportDrawRecord() {
   // 添加表格头
-  const header = "中奖人/项,中奖时间\n"; // 添加打乱顺序的列头
+  const header = "中奖人/项,中奖时间,排序/乱序,中奖值\n"; // 添加打乱顺序的列头
   const csvContent = "data:text/csv;charset=utf-8,\uFEFF" 
     + header // 添加表头
-    + drawResults.map(e => `${e.name},${e.time}`).join("\n"); 
+    + drawResults.map(e => `${e.name},${e.time},${e.arrays},${e.randomValue}`).join("\n"); 
 
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
