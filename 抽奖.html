@@ -41,7 +41,40 @@
   }
   .strikethrough {
     text-decoration: line-through;
-    color: red; /* 设置字体颜色为红色 */
+    color: red;
+  }
+  /* 编辑弹出框样式 */
+  #edit-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30vw;
+    aspect-ratio: 3/2;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
+  #edit-header {
+    background-color: #f2f2f2;
+    cursor: move; /* 鼠标指针样式 */
+    padding: 10px;
+  }
+  #edit-body {
+    padding: 10px;
+  }
+  #edit-footer {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+    padding: 10px;
+  }
+  #closeEditModal{
+	  position: absolute;
+	  right: 20px;
+	  cursor: pointer;
   }
 </style>
 </head>
@@ -101,10 +134,29 @@
   <ul id="draw-record"></ul>
 </div>
 
+<!-- 编辑弹出框 -->
+<div id="edit-modal">
+  <div id="edit-header">编辑<a id="closeEditModal" onclick="closeEditModal()">x</a></div>
+  <div id="edit-body">
+	  <div>
+		<i>抽奖人/奖项：</i><input type="text" id="edit-name" placeholder="获奖人/奖项" style="width: 150px; height: 18px;">
+	  </div><div>
+		<i>权重：</i><input type="number" id="edit-weight" placeholder="权重" value="1" style="width: 202px; height: 18px;">
+	  </div><div>
+		<i>备注：</i><textarea id="edit-remark" placeholder="填写备注信息" style="width: 205px; height: 50px;"></textarea>
+	  <div>
+  </div>
+  <div id="edit-footer">
+    <button onclick="saveEdit()">保存</button>
+    <button onclick="closeEditModal()">取消</button>
+  </div>
+</div>
+
 <script>
 let drawItems = [];
 let drawnItems = [];
 let drawResults = [];
+let currentEditIndex = -1; // 当前编辑的索引
 
 function addDrawItem() {
   const name = document.getElementById('name').value;
@@ -135,6 +187,57 @@ function removeDrawItem(button) {
   const index = Array.from(document.getElementById('draw-items').children).indexOf(row);
   drawItems.splice(index, 1);
   row.remove();
+}
+
+function editDrawItem(button) {
+  const row = button.parentNode.parentNode; // 获取当前行
+  const index = Array.from(document.getElementById('draw-items').children).indexOf(row); // 获取索引
+  currentEditIndex = index; // 记录当前编辑的索引
+  const item = drawItems[index];
+  
+  // 填充编辑框
+  document.getElementById('edit-name').value = item.name;
+  document.getElementById('edit-weight').value = item.weight;
+  document.getElementById('edit-remark').value = item.remark || '';
+  
+  // 显示编辑弹出框
+  document.getElementById('edit-modal').style.display = 'block';
+}
+
+function closeEditModal() {
+  document.getElementById('edit-modal').style.display = 'none'; // 隐藏编辑弹出框
+}
+
+function saveEdit() {
+  const name = document.getElementById('edit-name').value;
+  const weight = parseInt(document.getElementById('edit-weight').value, 10);
+  const remark = document.getElementById('edit-remark').value;
+
+  if (name && !isNaN(weight) && weight > 0) {
+    drawItems[currentEditIndex] = { name, weight, remark }; // 更新抽奖项
+    updateDrawItemsTable(); // 更新表格
+    closeEditModal(); // 关闭弹出框
+  } else {
+    alert('请输入有效内容');
+  }
+}
+
+function updateDrawItemsTable() {
+  const drawItemsTable = document.getElementById('draw-items');
+  drawItemsTable.innerHTML = ''; // 清空当前表格
+  drawItems.forEach((item, index) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${item.name}</td>
+      <td>${item.weight}</td>
+      <td>${item.remark || ''}</td>
+      <td>
+        <button onclick="editDrawItem(this)">编辑</button>
+        <button onclick="removeDrawItem(this)">删除</button>
+      </td>
+    `;
+    drawItemsTable.appendChild(row);
+  });
 }
 
 function resetStyles() {
@@ -218,7 +321,6 @@ function startDraw() {
   }
 }
 
-
 // 随机打乱数组的函数
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -226,7 +328,6 @@ function shuffleArray(array) {
     [array[i], array[j]] = [array[j], array[i]]; // 交换元素
   }
 }
-
 
 function exportDrawRecord() {
   // 添加表格头
@@ -243,7 +344,6 @@ function exportDrawRecord() {
   link.click();
   document.body.removeChild(link);
 }
-
 
 function exportConfig() {
   const jsonContent = JSON.stringify(drawItems, null, 2);
@@ -270,12 +370,12 @@ function importConfig(event) {
         const drawItemsTable = document.getElementById('draw-items');
         drawItemsTable.innerHTML = ''; // 清空当前表格
         importedItems.forEach(item => {
-		  const remark = item.remark || ''; // 如果没有remark，使用空字符串
+          const remark = item.remark || ''; // 如果没有remark，使用空字符串
           const row = document.createElement('tr');
           row.innerHTML = `
             <td>${item.name}</td>
             <td>${item.weight}</td>
-			<td>${remark}</td>
+            <td>${remark}</td>
             <td>
               <button onclick="editDrawItem(this)">编辑</button>
               <button onclick="removeDrawItem(this)">删除</button>
@@ -296,7 +396,39 @@ function toggleAutoExport() {
   document.getElementById('export-record-btn').style.display = autoExportChecked ? 'none' : 'inline-block';
 }
 
+// 拖动功能
+dragElement(document.getElementById("edit-modal"));
 
+function dragElement(el) {
+  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  const header = document.getElementById("edit-header");
+  header.onmousedown = dragMouseDown;
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    el.style.top = (el.offsetTop - pos2) + "px";
+    el.style.left = (el.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
 </script>
 
 </body>
