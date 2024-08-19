@@ -315,11 +315,20 @@ function startDraw() {
     drawnItems = []; // 清空已抽中的项
   }
 
+  // 过滤出 N0 项
+  const n0Items = drawItems.filter(item => !item.parentId);
+  
+  // 检查是否有 N0 项可抽奖
+  if (n0Items.length === 0) {
+    alert('没有可抽奖的 N0 项！');
+    return;
+  }
+
   // 生成权重索引数组
   const indices = [];
   
   // 创建权重索引数组
-  drawItems.forEach((item, index) => {
+  n0Items.forEach((item, index) => {
     if (document.getElementById('allow-repeat').checked || !drawnItems.includes(item.name)) {
       for (let i = 0; i < item.weight; i++) {
         indices.push(index); // 将每个奖项的索引添加到数组中
@@ -329,7 +338,7 @@ function startDraw() {
 
   // 检查是否还有可抽奖项
   if (indices.length === 0) {
-    alert('所有奖项均已抽中！');
+    alert('所有 N0 项均已抽中！');
     return;
   }
 
@@ -343,15 +352,54 @@ function startDraw() {
   // 生成一个随机数
   const randomIndex = Math.floor(Math.random() * indices.length);
   const selectedIndex = indices[randomIndex]; // 根据随机数选择索引
-  // 获取对应的奖项
-  const selectedItem = drawItems[selectedIndex];
+  const selectedItem = n0Items[selectedIndex]; // 获取对应的 N0 项
 
   // 添加到抽奖记录
-  const drawTime = new Date().toLocaleString();
-  const newRecordItem = `<li style="color: gold;">${selectedItem.name} 被抽中！</li>`;
-  record.innerHTML = newRecordItem + record.innerHTML; // 将新记录添加到最上面
-  drawResults.push({ name: selectedItem.name, time: drawTime , randomValue: randomIndex ,  arrays: indices});
+  const drawResults = []; // 用于存储所有抽中的项
+  drawResults.push(selectedItem.name); // 添加抽中的 N0 项
 
+  // 递归抽取下级项
+  function drawSubItems(parentId) {
+    const subItems = drawItems.filter(item => item.parentId === parentId);
+    
+    if (subItems.length === 0) return; // 如果没有下级项，结束递归
+
+    // 生成权重索引数组
+    const subIndices = [];
+    subItems.forEach((subItem, index) => {
+      if (document.getElementById('allow-repeat').checked || !drawnItems.includes(subItem.name)) {
+        for (let i = 0; i < subItem.weight; i++) {
+          subIndices.push(index); // 将每个下级项的索引添加到数组中
+        }
+      }
+    });
+
+    // 检查是否还有可抽奖项
+    if (subIndices.length === 0) return; // 如果没有可抽奖项，结束递归
+
+    // 检查洗牌开关状态
+    if (isShuffle) {
+      shuffleArray(subIndices);
+    }
+
+    // 生成一个随机数
+    const randomSubIndex = Math.floor(Math.random() * subIndices.length);
+    const selectedSubIndex = subIndices[randomSubIndex]; // 根据随机数选择索引
+    const selectedSubItem = subItems[selectedSubIndex]; // 获取对应的下级项
+
+    drawResults.push(selectedSubItem.name); // 添加抽中的下级项
+    drawSubItems(selectedSubItem.id); // 递归调用，继续抽取下级项
+  }
+
+  drawSubItems(selectedItem.id); // 开始递归抽取下级项
+
+  // 输出结果
+  const drawTime = new Date().toLocaleString();
+  const resultMessage = `${drawResults.join(' ')} 被抽中！`;
+  const newRecordItem = `<li style="color: gold;">${resultMessage}</li>`;
+  record.innerHTML = newRecordItem + record.innerHTML; // 将新记录添加到最上面
+  drawResults.push({ name: resultMessage, time: drawTime});
+console.log({name: resultMessage, time: drawTime});
   // 自动导出抽奖记录
   if (document.getElementById('auto-export').checked) {
     exportDrawRecord();
@@ -362,11 +410,8 @@ function startDraw() {
   for (let j = 0; j < rows.length; j++) {
     if (rows[j].children[1].innerText === selectedItem.name) {
       if (document.getElementById('allow-repeat').checked) {
-        console.log("1");
         rows[j].children[1].style.color = 'gold'; // 设置字体颜色为金色
       } else {
-        // 标记为已抽中
-        console.log("2");
         drawnItems.push(selectedItem.name);
         rows[j].children[1].classList.add('strikethrough'); // 添加删除线
         rows[j].children[1].style.color = 'red'; // 设置字体颜色为红色
@@ -392,10 +437,10 @@ function shuffleArray(array) {
 
 function exportDrawRecord() {
   // 添加表格头
-  const header = "中奖人/项,中奖时间,打乱顺序,中奖值\n"; // 添加打乱顺序的列头
+  const header = "中奖人/项,中奖时间\n"; // 添加打乱顺序的列头
   const csvContent = "data:text/csv;charset=utf-8,\uFEFF" 
     + header // 添加表头
-    + drawResults.map(e => `${e.name},${e.time},${e.arrays.join(';')},${e.randomValue}`).join("\n"); // 添加打乱顺序
+    + drawResults.map(e => `${e.name},${e.time}`).join("\n"); 
 
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
