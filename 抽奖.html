@@ -124,10 +124,12 @@
   <table id="draw-items-table">
     <thead>
       <tr>
+        <th>ID</th>
         <th>获奖人/奖项</th>
         <th>权重</th>
         <th>备注</th>
         <th>操作</th>
+        <th>上级ID</th>
       </tr>
     </thead>
     <tbody id="draw-items"></tbody>
@@ -144,10 +146,16 @@
   <div id="edit-header">编辑<a id="closeEditModal" onclick="closeEditModal()">x</a></div>
   <div id="edit-body">
     <div>
+      <i>ID：</i><input type="text" id="edit-id" readonly>
+    </div>
+    <div>
       <i>抽奖人/奖项：</i><input type="text" id="edit-name" placeholder="获奖人/奖项" style="width: 150px; height: 18px;">
     </div>
     <div>
       <i>权重：</i><input type="number" id="edit-weight" placeholder="权重" value="1" style="width: 202px; height: 18px;">
+    </div>
+    <div>
+      <i>上级ID：</i><input type="text" id="edit-parent-id" placeholder="上级ID" style="width: 150px; height: 18px;">
     </div>
     <div>
       <i>备注：</i><textarea id="edit-remark" placeholder="填写备注信息" style="width: 205px; height: 50px;"></textarea>
@@ -165,20 +173,33 @@ let drawnItems = [];
 let drawResults = [];
 let currentEditIndex = -1; // 当前编辑的索引
 
+function generateUniqueId() {
+  let id;
+  const existingIds = drawItems.map(item => item.id);
+  do {
+    id = Math.floor(100000 + Math.random() * 999999).toString(); // 生成6位数ID
+  } while (existingIds.includes(id));
+  return id;
+}
+  
 function addDrawItem() {
   const name = document.getElementById('name').value;
   const weight = parseInt(document.getElementById('weight').value, 10);
   if (name && !isNaN(weight) && weight > 0) {
-    drawItems.push({ name, weight });
+    const id = generateUniqueId();
+    drawItems.push({ id, name, weight, parentId: null });
     
     const row = document.createElement('tr');
     row.innerHTML = `
+      <td>${id}</td>
       <td>${name}</td>
       <td>${weight}</td>
+      <td></td>
       <td></td>
       <td>
         <button onclick="editDrawItem(this)">编辑</button>
         <button onclick="removeDrawItem(this)">删除</button>
+        <button onclick="addSubItem(this)">添加下级抽奖项</button>
       </td>
     `;
     document.getElementById('draw-items').appendChild(row);
@@ -187,6 +208,22 @@ function addDrawItem() {
   } else {
     alert('请输入有效内容');
   }
+}
+
+function addSubItem(button) {
+  const row = button.parentNode.parentNode;
+  const index = Array.from(document.getElementById('draw-items').children).indexOf(row);
+  const parentId = drawItems[index].id;
+
+  // 填充编辑框
+  document.getElementById('edit-id').value = generateUniqueId();
+  document.getElementById('edit-parent-id').value = parentId;
+  document.getElementById('edit-name').value = '';
+  document.getElementById('edit-weight').value = 1;
+  document.getElementById('edit-remark').value = '';
+
+  // 显示编辑弹出框
+  document.getElementById('edit-modal').style.display = 'block';
 }
 
 function removeDrawItem(button) {
@@ -203,9 +240,11 @@ function editDrawItem(button) {
   const item = drawItems[index];
   
   // 填充编辑框
+  document.getElementById('edit-id').value = item.id;
   document.getElementById('edit-name').value = item.name;
   document.getElementById('edit-weight').value = item.weight;
   document.getElementById('edit-remark').value = item.remark || '';
+  document.getElementById('edit-parent-id').value = item.parentId || '';
   
   // 显示编辑弹出框
   document.getElementById('edit-modal').style.display = 'block';
@@ -216,12 +255,21 @@ function closeEditModal() {
 }
 
 function saveEdit() {
+  const id = document.getElementById('edit-id').value;
   const name = document.getElementById('edit-name').value;
   const weight = parseInt(document.getElementById('edit-weight').value, 10);
+  const parentId = document.getElementById('edit-parent-id').value;
   const remark = document.getElementById('edit-remark').value;
 
   if (name && !isNaN(weight) && weight > 0) {
-    drawItems[currentEditIndex] = { name, weight, remark }; // 更新抽奖项
+    const existingIndex = drawItems.findIndex(item => item.id === id);
+    if (existingIndex >= 0) {
+      // 更新已存在的抽奖项
+      drawItems[existingIndex] = { id, name, weight, parentId, remark };
+    } else {
+      // 添加新抽奖项
+      drawItems.push({ id, name, weight, parentId, remark });
+    }
     updateDrawItemsTable(); // 更新表格
     closeEditModal(); // 关闭弹出框
   } else {
@@ -235,12 +283,15 @@ function updateDrawItemsTable() {
   drawItems.forEach((item, index) => {
     const row = document.createElement('tr');
     row.innerHTML = `
+      <td>${item.id}</td>
       <td>${item.name}</td>
       <td>${item.weight}</td>
+      <td>${item.parentId || ''}</td>
       <td>${item.remark || ''}</td>
       <td>
         <button onclick="editDrawItem(this)">编辑</button>
         <button onclick="removeDrawItem(this)">删除</button>
+        <button onclick="addSubItem(this)">添加下级抽奖项</button>
       </td>
     `;
     drawItemsTable.appendChild(row);
@@ -250,8 +301,8 @@ function updateDrawItemsTable() {
 function resetStyles() {
   const rows = document.getElementById('draw-items').children;
   for (let j = 0; j < rows.length; j++) {
-    rows[j].children[0].classList.remove('strikethrough');
-    rows[j].children[0].style.color = ''; // 重置字体颜色
+    rows[j].children[1].classList.remove('strikethrough');
+    rows[j].children[1].style.color = ''; // 重置字体颜色
   }
 }
 
@@ -309,14 +360,16 @@ function startDraw() {
   // 在表格中添加删除线和红色字体
   const rows = document.getElementById('draw-items').children;
   for (let j = 0; j < rows.length; j++) {
-    if (rows[j].children[0].innerText === selectedItem.name) {
+    if (rows[j].children[1].innerText === selectedItem.name) {
       if (document.getElementById('allow-repeat').checked) {
-        rows[j].children[0].style.color = 'gold'; // 设置字体颜色为金色
+        console.log("1");
+        rows[j].children[1].style.color = 'gold'; // 设置字体颜色为金色
       } else {
         // 标记为已抽中
+        console.log("2");
         drawnItems.push(selectedItem.name);
-        rows[j].children[0].classList.add('strikethrough'); // 添加删除线
-        rows[j].children[0].style.color = 'red'; // 设置字体颜色为红色
+        rows[j].children[1].classList.add('strikethrough'); // 添加删除线
+        rows[j].children[1].style.color = 'red'; // 设置字体颜色为红色
       }
       break;
     }
@@ -367,10 +420,10 @@ function exportConfig() {
 }
 
 function exportConfigAsCSV() {
-  const header = "获奖人/奖项,权重,备注\n";
+  const header = "ID,获奖人/奖项,权重,上级ID,备注\n";
   const csvContent = "data:text/csv;charset=utf-8,\uFEFF" 
     + header 
-    + drawItems.map(item => `${item.name},${item.weight},${item.remark || ''}`).join("\n");
+    + drawItems.map(item => `${item.id},${item.name},${item.weight},${item.parentId || ''},${item.remark || ''}`).join("\n");
 
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
@@ -394,9 +447,11 @@ function importConfig(event) {
         } else if (file.type === "text/csv") {
           const rows = content.split("\n").map(row => row.split(","));
           importedItems = rows.slice(1).map(row => ({
-            name: row[0],
-            weight: parseInt(row[1], 10),
-            remark: row[2] || ''
+           id: row[0],
+            name: row[1],
+            weight: parseInt(row[2], 10),
+            parentId: row[3] || null,
+            remark: row[4] || ''
           }));
         } else {
           throw new Error('不支持的文件格式');
