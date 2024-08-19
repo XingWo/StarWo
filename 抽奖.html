@@ -66,15 +66,15 @@
     padding: 10px;
   }
   #edit-footer {
-	position: absolute;
-	bottom: 0;
-	right: 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
     padding: 10px;
   }
-  #closeEditModal{
-	  position: absolute;
-	  right: 20px;
-	  cursor: pointer;
+  #closeEditModal {
+    position: absolute;
+    right: 20px;
+    cursor: pointer;
   }
 </style>
 </head>
@@ -112,8 +112,9 @@
 
   <button id="export-record-btn" onclick="exportDrawRecord()">导出抽奖记录</button>
   <button onclick="startDraw()">开始抽奖</button>
-  <button onclick="exportConfig()">导出配置</button>
-  <input type="file" id="import-config" accept=".json" onchange="importConfig(event)" style="display: none;">
+  <button onclick="exportConfig()">导出配置 (JSON)</button>
+  <button onclick="exportConfigAsCSV()">导出配置 (CSV)</button>
+  <input type="file" id="import-config" accept=".json, .csv" onchange="importConfig(event)" style="display: none;">
   <button onclick="document.getElementById('import-config').click()">导入配置</button>
   
   <table id="draw-items-table">
@@ -138,13 +139,15 @@
 <div id="edit-modal">
   <div id="edit-header">编辑<a id="closeEditModal" onclick="closeEditModal()">x</a></div>
   <div id="edit-body">
-	  <div>
-		<i>抽奖人/奖项：</i><input type="text" id="edit-name" placeholder="获奖人/奖项" style="width: 150px; height: 18px;">
-	  </div><div>
-		<i>权重：</i><input type="number" id="edit-weight" placeholder="权重" value="1" style="width: 202px; height: 18px;">
-	  </div><div>
-		<i>备注：</i><textarea id="edit-remark" placeholder="填写备注信息" style="width: 205px; height: 50px;"></textarea>
-	  <div>
+    <div>
+      <i>抽奖人/奖项：</i><input type="text" id="edit-name" placeholder="获奖人/奖项" style="width: 150px; height: 18px;">
+    </div>
+    <div>
+      <i>权重：</i><input type="number" id="edit-weight" placeholder="权重" value="1" style="width: 202px; height: 18px;">
+    </div>
+    <div>
+      <i>备注：</i><textarea id="edit-remark" placeholder="填写备注信息" style="width: 205px; height: 50px;"></textarea>
+    </div>
   </div>
   <div id="edit-footer">
     <button onclick="saveEdit()">保存</button>
@@ -163,7 +166,7 @@ function addDrawItem() {
   const weight = parseInt(document.getElementById('weight').value, 10);
   if (name && !isNaN(weight) && weight > 0) {
     drawItems.push({ name, weight });
-	
+    
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${name}</td>
@@ -358,6 +361,21 @@ function exportConfig() {
   URL.revokeObjectURL(url);
 }
 
+function exportConfigAsCSV() {
+  const header = "获奖人/奖项,权重,备注\n";
+  const csvContent = "data:text/csv;charset=utf-8,\uFEFF" 
+    + header 
+    + drawItems.map(item => `${item.name},${item.weight},${item.remark || ''}`).join("\n");
+
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "config.csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
 function importConfig(event) {
   const file = event.target.files[0];
   if (file) {
@@ -365,24 +383,22 @@ function importConfig(event) {
     reader.onload = function(e) {
       const content = e.target.result;
       try {
-        const importedItems = JSON.parse(content);
+        let importedItems;
+        if (file.type === "application/json") {
+          importedItems = JSON.parse(content);
+        } else if (file.type === "text/csv") {
+          const rows = content.split("\n").map(row => row.split(","));
+          importedItems = rows.slice(1).map(row => ({
+            name: row[0],
+            weight: parseInt(row[1], 10),
+            remark: row[2] || ''
+          }));
+        } else {
+          throw new Error('不支持的文件格式');
+        }
+
         drawItems = importedItems;
-        const drawItemsTable = document.getElementById('draw-items');
-        drawItemsTable.innerHTML = ''; // 清空当前表格
-        importedItems.forEach(item => {
-          const remark = item.remark || ''; // 如果没有remark，使用空字符串
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${item.name}</td>
-            <td>${item.weight}</td>
-            <td>${remark}</td>
-            <td>
-              <button onclick="editDrawItem(this)">编辑</button>
-              <button onclick="removeDrawItem(this)">删除</button>
-            </td>
-          `;
-          drawItemsTable.appendChild(row);
-        });
+        updateDrawItemsTable(); // 更新表格
       } catch (error) {
         alert('导入失败，请确保文件格式正确。');
       }
