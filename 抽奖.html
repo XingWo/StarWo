@@ -70,6 +70,13 @@
     </label>
   </div>
   
+  <div>
+    <label>
+      <input type="checkbox" id="shuffle-toggle" checked>
+      抽奖前洗牌
+    </label>
+  </div>
+
   <button id="export-record-btn" onclick="exportDrawRecord()">导出抽奖记录</button>
   <button onclick="startDraw()">开始抽奖</button>
   <button onclick="exportConfig()">导出配置</button>
@@ -159,8 +166,11 @@ function startDraw() {
     return;
   }
 
-  // 随机打乱索引数组
-  shuffleArray(indices);
+  // 检查洗牌开关状态
+  if (document.getElementById('shuffle-toggle').checked) {
+    // 随机打乱索引数组
+    shuffleArray(indices);
+  }
 
   // 生成一个随机数
   const randomIndex = Math.floor(Math.random() * indices.length);
@@ -202,6 +212,7 @@ function startDraw() {
     historyItems[k].style.color = 'black';
   }
 }
+
 
 // 随机打乱数组的函数
 function shuffleArray(array) {
