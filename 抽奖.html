@@ -105,8 +105,12 @@
   
   <div>
     <label>
-      <input type="checkbox" id="shuffle-toggle" checked>
-      抽奖前洗牌
+      <input type="radio" name="shuffle" id="shuffle-yes" checked onchange="toggleShuffle(true)">
+      运气
+    </label>
+    <label>
+      <input type="radio" name="shuffle" id="shuffle-no" onchange="toggleShuffle(false)">
+      玄学
     </label>
   </div>
 
@@ -279,7 +283,8 @@ function startDraw() {
   }
 
   // 检查洗牌开关状态
-  if (document.getElementById('shuffle-toggle').checked) {
+  const isShuffle = document.getElementById('shuffle-yes').checked;
+  if (isShuffle) {
     // 随机打乱索引数组
     shuffleArray(indices);
   }
@@ -410,6 +415,11 @@ function importConfig(event) {
 function toggleAutoExport() {
   const autoExportChecked = document.getElementById('auto-export').checked;
   document.getElementById('export-record-btn').style.display = autoExportChecked ? 'none' : 'inline-block';
+}
+
+function toggleShuffle(isShuffle) {
+  // 这里可以根据需要添加其他逻辑
+  console.log("洗牌状态:", isShuffle ? "开启" : "关闭");
 }
 
 // 拖动功能
