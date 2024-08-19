@@ -124,10 +124,8 @@
   <table id="draw-items-table">
     <thead>
       <tr>
-        <th>ID</th>
         <th>获奖人/奖项</th>
         <th>权重</th>
-        <th>上级ID</th>
         <th>备注</th>
         <th>操作</th>
       </tr>
@@ -177,7 +175,7 @@ function generateUniqueId() {
   let id;
   const existingIds = drawItems.map(item => item.id);
   do {
-    id = Math.floor(100000 + Math.random() * 999999).toString(); // 生成6位数ID
+    id = Math.floor(1000 + Math.random() * 90000000).toString(); // 生成6位数ID
   } while (existingIds.includes(id));
   return id;
 }
@@ -191,10 +189,8 @@ function addDrawItem() {
     
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td>${id}</td>
       <td>${name}</td>
       <td>${weight}</td>
-      <td></td>
       <td></td>
       <td>
         <button onclick="editDrawItem(this)">编辑</button>
@@ -283,10 +279,8 @@ function updateDrawItemsTable() {
   drawItems.forEach((item, index) => {
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td>${item.id}</td>
       <td>${item.name}</td>
       <td>${item.weight}</td>
-      <td>${item.parentId || ''}</td>
       <td>${item.remark || ''}</td>
       <td>
         <button onclick="editDrawItem(this)">编辑</button>
