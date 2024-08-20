@@ -124,8 +124,10 @@
   <table id="draw-items-table">
     <thead>
       <tr>
+        <th>ID</th>
         <th>获奖人/奖项</th>
         <th>权重</th>
+        <th>上级ID</th>
         <th>备注</th>
         <th>操作</th>
       </tr>
@@ -175,7 +177,7 @@ function generateUniqueId() {
   let id;
   const existingIds = drawItems.map(item => item.id);
   do {
-    id = Math.floor(1000 + Math.random() * 90000000).toString(); // 生成6位数ID
+    id = Math.floor(1000 + Math.random() * 90000000).toString(); // 
   } while (existingIds.includes(id));
   return id;
 }
@@ -189,8 +191,10 @@ function addDrawItem() {
     
     const row = document.createElement('tr');
     row.innerHTML = `
+      <td>${id}</td>
       <td>${name}</td>
       <td>${weight}</td>
+      <td></td>
       <td></td>
       <td>
         <button onclick="editDrawItem(this)">编辑</button>
@@ -279,8 +283,10 @@ function updateDrawItemsTable() {
   drawItems.forEach((item, index) => {
     const row = document.createElement('tr');
     row.innerHTML = `
+      <td>${item.id}</td>
       <td>${item.name}</td>
       <td>${item.weight}</td>
+      <td>${item.parentId || ''}</td>
       <td>${item.remark || ''}</td>
       <td>
         <button onclick="editDrawItem(this)">编辑</button>
@@ -295,8 +301,8 @@ function updateDrawItemsTable() {
 function resetStyles() {
   const rows = document.getElementById('draw-items').children;
   for (let j = 0; j < rows.length; j++) {
-    rows[j].children[0].classList.remove('strikethrough');
-    rows[j].children[0].style.color = ''; // 重置字体颜色
+    rows[j].children[1].classList.remove('strikethrough');
+    rows[j].children[1].style.color = ''; // 重置字体颜色
   }
 }
 
@@ -410,13 +416,13 @@ console.log({ name: resultMessage, time: drawTime, randomValue: redxdoin ,  arra
   // 在表格中添加删除线和红色字体
   const rows = document.getElementById('draw-items').children;
   for (let j = 0; j < rows.length; j++) {
-    if (rows[j].children[0].innerText === selectedItem.name) {
+    if (rows[j].children[1].innerText === selectedItem.name) {
       if (document.getElementById('allow-repeat').checked) {
-        rows[j].children[0].style.color = 'gold'; // 设置字体颜色为金色
+        rows[j].children[1].style.color = 'gold'; // 设置字体颜色为金色
       } else {
         drawnItems.push(selectedItem.name);
-        rows[j].children[0].classList.add('strikethrough'); // 添加删除线
-        rows[j].children[0].style.color = 'red'; // 设置字体颜色为红色
+        rows[j].children[1].classList.add('strikethrough'); // 添加删除线
+        rows[j].children[1].style.color = 'red'; // 设置字体颜色为红色
       }
       break;
     }
