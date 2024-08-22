@@ -76,6 +76,9 @@
     right: 20px;
     cursor: pointer;
   }
+  .uid,.upuid{
+    display:none;
+  }
 </style>
 </head>
 <body>
@@ -124,10 +127,10 @@
   <table id="draw-items-table">
     <thead>
       <tr>
-        <th>ID</th>
+        <th class="uid">ID</th>
         <th>获奖人/奖项</th>
         <th>权重</th>
-        <th>上级ID</th>
+        <th class="upuid">上级ID</th>
         <th>备注</th>
         <th>操作</th>
       </tr>
@@ -191,10 +194,10 @@ function addDrawItem() {
     
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td>${id}</td>
+      <td class="uid">${id}</td>
       <td>${name}</td>
       <td>${weight}</td>
-      <td></td>
+      <td class="upuid"></td>
       <td></td>
       <td>
         <button onclick="editDrawItem(this)">编辑</button>
@@ -283,10 +286,10 @@ function updateDrawItemsTable() {
   drawItems.forEach((item, index) => {
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td>${item.id}</td>
+      <td class="uid">${item.id}</td>
       <td>${item.name}</td>
       <td>${item.weight}</td>
-      <td>${item.parentId || ''}</td>
+      <td class="upuid">${item.parentId || ''}</td>
       <td>${item.remark || ''}</td>
       <td>
         <button onclick="editDrawItem(this)">编辑</button>
