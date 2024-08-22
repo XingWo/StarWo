@@ -92,7 +92,7 @@
   <div>
     <label>
       <input type="checkbox" id="allow-repeat" checked>
-      允许重复抽奖
+      允许抽中重复奖项
     </label>
   </div>
   
@@ -399,6 +399,9 @@ function startDraw() {
 
   drawSubItems(selectedItem.id); // 开始递归抽取下级项
 
+  // 处理标记逻辑
+  markDrawnItems(drawResultses);
+	
   // 输出结果
   const drawTime = new Date().toLocaleString();
   const resultMessage = `${drawResultses.join(' ')}`;
@@ -447,13 +450,13 @@ function markItem(item) {
   
   for (let j = 0; j < rows.length; j++) {
     if (rows[j].children[1].innerText === item.name) {
-      // 检查是否允许重复抽奖
+      // 检查是否允许重复抽中
       if (document.getElementById('allow-repeat').checked) {
-        // 允许重复抽奖时，仅设置字体为金色
+        // 允许重复抽中时，仅设置字体为金色
         rows[j].children[1].style.color = 'gold'; // 设置字体颜色为金色
         rows[j].children[1].classList.remove('strikethrough'); // 移除删除线
       } else {
-        // 不允许重复抽奖时，添加删除线并设置字体颜色为红色
+        // 不允许重复抽中时，添加删除线并设置字体颜色为红色
         rows[j].children[1].classList.add('strikethrough'); // 添加删除线
         rows[j].children[1].style.color = 'red'; // 设置字体颜色为红色
       }
