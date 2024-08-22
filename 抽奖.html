@@ -169,7 +169,7 @@
 
 <script>
 let drawItems = [];
-let drawnItems = [];
+let stardrawnItems = [];
 let drawResults = [];
 let currentEditIndex = -1; // 当前编辑的索引
 
@@ -312,7 +312,7 @@ function startDraw() {
   // 重置样式
   if (document.getElementById('allow-repeat').checked) {
     resetStyles();
-    drawnItems = []; // 清空已抽中的项
+    stardrawnItems = []; // 清空已抽中的项
   }
 
   // 过滤出 N0 项
@@ -329,7 +329,7 @@ function startDraw() {
   
   // 创建权重索引数组
   n0Items.forEach((item, index) => {
-    if (document.getElementById('allow-repeat').checked || !drawnItems.includes(item.name)) {
+    if (document.getElementById('allow-repeat').checked || !stardrawnItems.includes(item.name)) {
       for (let i = 0; i < item.weight; i++) {
         indices.push(index); // 将每个奖项的索引添加到数组中
       }
@@ -371,7 +371,7 @@ function startDraw() {
     // 生成权重索引数组
     const subIndices = [];
     subItems.forEach((subItem, index) => {
-      if (document.getElementById('allow-repeat').checked || !drawnItems.includes(subItem.name)) {
+      if (document.getElementById('allow-repeat').checked || !stardrawnItems.includes(subItem.name)) {
         for (let i = 0; i < subItem.weight; i++) {
           subIndices.push(index); // 将每个下级项的索引添加到数组中
         }
@@ -412,29 +412,56 @@ console.log({ name: resultMessage, time: drawTime, randomValue: redxdoin ,  arra
   if (document.getElementById('auto-export').checked) {
     exportDrawRecord();
   }
+}
 
-  // 在表格中添加删除线和红色字体
+function markDrawnItems(drawnItems) {
+	
+  // 从最后一项开始标记
+  for (let i = drawnItems.length - 1; i >= 0; i--) {
+    const itemName = drawnItems[i];
+    const item = drawItems.find(d => d.name === itemName);
+
+    if (!item) continue; // 如果找不到该项，跳过
+
+    markItem(item); 
+    
+
+    // 获取上级项
+    const parentItem = drawItems.find(d => d.id === item.parentId);
+    if (parentItem) {
+      // 判断上级项的同级项
+      //const siblings = drawItems.filter(d => d.parentId === parentItem.parentId && d.id !== parentItem.id);
+	  //判断当前项的同级项
+	  const siblings = drawItems.filter(d => d.parentId === item.parentId && d.id !== item.id);
+      const hasUnmarkedSiblings = siblings.some(sibling => !stardrawnItems.includes(sibling.name));
+      if (hasUnmarkedSiblings) {
+		break; 
+      }
+    }
+  }
+}
+
+function markItem(item) {
+  stardrawnItems.push(item.name); // 标记为已抽中
   const rows = document.getElementById('draw-items').children;
+  
   for (let j = 0; j < rows.length; j++) {
-    if (rows[j].children[1].innerText === selectedItem.name) {
+    if (rows[j].children[1].innerText === item.name) {
+      // 检查是否允许重复抽奖
       if (document.getElementById('allow-repeat').checked) {
+        // 允许重复抽奖时，仅设置字体为金色
         rows[j].children[1].style.color = 'gold'; // 设置字体颜色为金色
+        rows[j].children[1].classList.remove('strikethrough'); // 移除删除线
       } else {
-        drawnItems.push(selectedItem.name);
+        // 不允许重复抽奖时，添加删除线并设置字体颜色为红色
         rows[j].children[1].classList.add('strikethrough'); // 添加删除线
         rows[j].children[1].style.color = 'red'; // 设置字体颜色为红色
       }
       break;
     }
   }
-
-  // 恢复历史记录颜色为黑色
-  const historyItems = record.getElementsByTagName('li');
-  for (let k = 1; k < historyItems.length; k++) { // 从1开始，跳过最新的记录
-    historyItems[k].style.color = 'black';
-  }
 }
-
+  
 // 随机打乱数组的函数
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
