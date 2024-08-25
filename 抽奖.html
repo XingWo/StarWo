@@ -186,9 +186,23 @@ function generateUniqueId() {
 }
   
 function addDrawItem() {
-  const name = document.getElementById('name').value;
+  const name = document.getElementById('name').value.trim(); // 去除空格
   const weight = parseInt(document.getElementById('weight').value, 10);
-  if (name && !isNaN(weight) && weight > 0) {
+  
+  if (!name) {
+    alert('获奖人/奖项不能为空！'); // 提示用户
+    return; // 跳过添加
+  }
+
+  // 检查同级项是否存在相同的“获奖人/奖项”
+  const existingIndex = drawItems.findIndex(item => item.name === name);
+  
+  if (existingIndex >= 0) {
+    // 如果同级项存在相同的“获奖人/奖项”，则叠加权重
+    drawItems[existingIndex].weight += weight;
+	// 更新表格以反映权重变化
+	updateDrawItemsTable(); // 更新表格
+  } else {
     const id = generateUniqueId();
     drawItems.push({ id, name, weight, parentId: null });
     
@@ -206,11 +220,10 @@ function addDrawItem() {
       </td>
     `;
     document.getElementById('draw-items').appendChild(row);
-    document.getElementById('name').value = '';
-    document.getElementById('weight').value = '1';
-  } else {
-    alert('请输入有效内容');
   }
+
+  document.getElementById('name').value = '';
+  document.getElementById('weight').value = '1';
 }
 
 function addSubItem(button) {
@@ -316,6 +329,15 @@ function startDraw() {
   if (document.getElementById('allow-repeat').checked) {
     resetStyles();
     stardrawnItems = []; // 清空已抽中的项
+  }
+  const rows = document.getElementById('draw-items').children;
+  for (let j = 0; j < rows.length; j++) {
+	  const itemName = rows[j].children[1].innerText; // 获取当前项的名称
+	  if (stardrawnItems.includes(itemName)) {
+		  // 如果该项已被标记，添加删除线并设置颜色
+		  rows[j].children[1].classList.add('strikethrough'); // 添加删除线
+		  rows[j].children[1].style.color = 'red'; // 设置字体颜色为红色
+	  }
   }
 
   // 过滤出 N0 项
@@ -453,16 +475,9 @@ function markItem(item) {
   
   for (let j = 0; j < rows.length; j++) {
     if (rows[j].children[1].innerText === item.name) {
-      // 检查是否允许重复抽中
-      if (document.getElementById('allow-repeat').checked) {
-        // 允许重复抽中时，仅设置字体为金色
-        rows[j].children[1].style.color = 'gold'; // 设置字体颜色为金色
-        rows[j].children[1].classList.remove('strikethrough'); // 移除删除线
-      } else {
-        // 不允许重复抽中时，添加删除线并设置字体颜色为红色
-        rows[j].children[1].classList.add('strikethrough'); // 添加删除线
-        rows[j].children[1].style.color = 'red'; // 设置字体颜色为红色
-      }
+	  // 允许抽中时，仅设置字体为金色
+	  rows[j].children[1].style.color = 'gold'; // 设置字体颜色为金色
+	  rows[j].children[1].classList.remove('strikethrough'); // 移除删除线
       break;
     }
   }
@@ -533,7 +548,7 @@ function importConfig(event) {
         } else if (file.type === "text/csv") {
           const rows = content.split("\n").map(row => row.split(","));
           importedItems = rows.slice(1).map(row => ({
-           id: row[0],
+            id: row[0],
             name: row[1],
             weight: parseInt(row[2], 10),
             parentId: row[3] || null,
@@ -543,7 +558,22 @@ function importConfig(event) {
           throw new Error('不支持的文件格式');
         }
 
-        drawItems = importedItems;
+        importedItems.forEach(item => {
+          if (!item.name) {
+            console.warn(`跳过空白项: ${JSON.stringify(item)}`); // 跳过空白项
+            return;
+          }
+
+          const existingIndex = drawItems.findIndex(existingItem => existingItem.name === item.name);
+          if (existingIndex >= 0) {
+            // 如果同级项存在相同的“获奖人/奖项”和相同的“ID”，则叠加权重
+            drawItems[existingIndex].weight += item.weight;
+			drawItems[existingIndex].remark += item.remark;
+          } else {
+            drawItems.push(item);
+          }
+        });
+
         updateDrawItemsTable(); // 更新表格
       } catch (error) {
         alert('导入失败，请确保文件格式正确。');
