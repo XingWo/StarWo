@@ -560,7 +560,7 @@ function importConfig(event) {
 
         importedItems.forEach(item => {
           if (!item.name) {
-            console.warn(`跳过空白项: ${JSON.stringify(item)}`); // 跳过空白项
+            console.warn(`已跳过空白项: ${JSON.stringify(item)}`); // 跳过空白项
             return;
           }
 
@@ -586,11 +586,6 @@ function importConfig(event) {
 function toggleAutoExport() {
   const autoExportChecked = document.getElementById('auto-export').checked;
   document.getElementById('export-record-btn').style.display = autoExportChecked ? 'none' : 'inline-block';
-}
-
-function toggleShuffle(isShuffle) {
-  // 这里可以根据需要添加其他逻辑
-  console.log("洗牌状态:", isShuffle ? "开启" : "关闭");
 }
 
 // 拖动功能
