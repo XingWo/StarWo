@@ -432,7 +432,7 @@ function startDraw() {
   const resultMessage = `${drawResultses.join(' ')}`;
   const redxdoin = `${randomIndexes.join(' ')}`;
   const arrayes = `${indicesd.join(' ').replace(/,/g, ';')}`;
-  const newRecordItem = `<li style="color: gold;">${resultMessage} 被抽中！</li>`;
+  const newRecordItem = `<li style="color: gold;">${resultMessage}</li>`;
   record.innerHTML = newRecordItem + record.innerHTML; // 将新记录添加到最上面
   drawResults.push({ name: resultMessage, time: drawTime, randomValue: redxdoin ,  arrays: arrayes});
 console.log({ name: resultMessage, time: drawTime, randomValue: redxdoin ,  arrays: arrayes});
