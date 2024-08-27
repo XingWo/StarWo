@@ -141,6 +141,7 @@
 
 <div id="record-container">
   <h3 id="record-container-top">抽奖记录</h3>
+  <canvas id="recordCanvas"></canvas>
   <ul id="draw-record"></ul>
 </div>
 
@@ -173,12 +174,12 @@
 <script>
 //自动抽奖?star=sky
 window.onload = function() {
-	document.getElementById('draw-container').style.display = 'none';
-	document.getElementById('record-container-top').style.display = 'none';
   const urlParams = new URLSearchParams(window.location.search);
   const star = urlParams.get('star');
 
   if (star === 'sky') {
+	document.getElementById('draw-container').style.display = 'none';
+	document.getElementById('record-container-top').style.display = 'none';
     // 导入配置
     const configData = `
       ID,获奖人/奖项,权重,上级ID,备注
@@ -629,10 +630,66 @@ function startDraw() {
   record.innerHTML = newRecordItem + record.innerHTML; // 将新记录添加到最上面
   drawResults.push({ name: resultMessage, time: drawTime, randomValue: redxdoin ,  arrays: arrayes});
 console.log({ name: resultMessage, time: drawTime, randomValue: redxdoin ,  arrays: arrayes});
+  drawResults.push({ name: resultMessage, time: drawTime });
+  
+  // 生成图片
+  generateRecordImage(resultMessage);
   // 自动导出抽奖记录
   if (document.getElementById('auto-export').checked) {
     exportDrawRecord();
   }
+}
+
+function generateRecordImage(recordText) {
+  const canvas = document.getElementById('recordCanvas');
+  const ctx = canvas.getContext('2d');
+
+  // 设置 Canvas 尺寸
+  canvas.width = 1000; // 根据需要调整宽度
+  canvas.height = 60; // 根据需要调整高度
+
+  // 设置背景色和文本样式
+  ctx.fillStyle = 'transparent'; // 背景色
+  ctx.fillRect(0, 0, canvas.width, canvas.height); // 填充背景
+  ctx.fillStyle = 'gold'; // 文本颜色
+  ctx.font = '28px 隶书'; // 文本字体和大小
+  ctx.textAlign = 'center'; // 文本对齐方式
+  ctx.textBaseline = 'middle'; // 文本基线
+
+  // 处理换行
+  const lineHeight = 25; // 行高
+  const lines = wrapText(ctx, recordText, canvas.width - 20); // 20 是左右留白
+
+  // 绘制文本
+  lines.forEach((line, index) => {
+    ctx.fillText(line, canvas.width / 2, (canvas.height / 2) + (index * lineHeight) - ((lines.length - 1) * lineHeight) / 2);
+  });
+}
+
+// 文本换行函数
+function wrapText(ctx, text, maxWidth) {
+  const words = text.split(' ');
+  const lines = [];
+  let currentLine = '';
+
+  words.forEach(word => {
+    const testLine = currentLine + word + ' ';
+    const metrics = ctx.measureText(testLine);
+    const testWidth = metrics.width;
+
+    if (testWidth > maxWidth && currentLine) {
+      lines.push(currentLine.trim());
+      currentLine = word + ' ';
+    } else {
+      currentLine = testLine;
+    }
+  });
+
+  if (currentLine) {
+    lines.push(currentLine.trim());
+  }
+
+  return lines;
 }
 
 function markDrawnItems(drawnItems) {
