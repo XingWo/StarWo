@@ -141,7 +141,8 @@
 
 <div id="record-container">
   <h3 id="record-container-top">抽奖记录</h3>
-  <canvas id="recordCanvas"></canvas>
+  <img id="recordImage" style="display: none; margin-top: 20px;" alt="抽奖记录图像">
+  <canvas id="recordCanvas" style="display: none;"></canvas>
   <ul id="draw-record"></ul>
 </div>
 
@@ -652,19 +653,25 @@ function generateRecordImage(recordText) {
   ctx.fillStyle = 'transparent'; // 背景色
   ctx.fillRect(0, 0, canvas.width, canvas.height); // 填充背景
   ctx.fillStyle = 'gold'; // 文本颜色
-  ctx.font = '28px 隶书'; // 文本字体和大小
+  ctx.font = '25px 隶书'; // 文本字体和大小
   ctx.textAlign = 'center'; // 文本对齐方式
   ctx.textBaseline = 'middle'; // 文本基线
 
   // 处理换行
-  const lineHeight = 25; // 行高
+  const lineHeight = 28; // 行高
   const lines = wrapText(ctx, recordText, canvas.width - 20); // 20 是左右留白
 
   // 绘制文本
   lines.forEach((line, index) => {
     ctx.fillText(line, canvas.width / 2, (canvas.height / 2) + (index * lineHeight) - ((lines.length - 1) * lineHeight) / 2);
   });
+
+  // 将 Canvas 转换为图像并显示
+  const imgElement = document.getElementById('recordImage');
+  imgElement.src = canvas.toDataURL('image/png'); // 将 Canvas 转换为图片
+  imgElement.style.display = 'block'; // 显示图像
 }
+
 
 // 文本换行函数
 function wrapText(ctx, text, maxWidth) {
