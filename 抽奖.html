@@ -82,7 +82,8 @@
 </style>
 </head>
 <body>
-
+<img id="recordImage" style="display: none; margin-top: 20px;" alt="抽奖记录图像">
+<canvas id="recordCanvas" style="display: none;"></canvas>
 <div id="draw-container">
   <h3>抽奖项配置</h3>
   
@@ -140,9 +141,7 @@
 </div>
 
 <div id="record-container">
-  <h3 id="record-container-top">抽奖记录</h3>
-  <img id="recordImage" style="display: none; margin-top: 20px;" alt="抽奖记录图像">
-  <canvas id="recordCanvas" style="display: none;"></canvas>
+  <h3>抽奖记录</h3>
   <ul id="draw-record"></ul>
 </div>
 
@@ -180,7 +179,8 @@ window.onload = function() {
 
   if (star === 'sky') {
 	document.getElementById('draw-container').style.display = 'none';
-	document.getElementById('record-container-top').style.display = 'none';
+	document.getElementById('record-container').style.display = 'none';
+	document.getElementById('recordImage').style.display = 'block';
     // 导入配置
     const configData = `
       ID,获奖人/奖项,权重,上级ID,备注
@@ -669,7 +669,6 @@ function generateRecordImage(recordText) {
   // 将 Canvas 转换为图像并显示
   const imgElement = document.getElementById('recordImage');
   imgElement.src = canvas.toDataURL('image/png'); // 将 Canvas 转换为图片
-  imgElement.style.display = 'block'; // 显示图像
 }
 
 
