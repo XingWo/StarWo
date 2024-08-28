@@ -76,14 +76,14 @@
     right: 20px;
     cursor: pointer;
   }
-  .uid,.upuid{
+  .uid,.upuid,#draw-container,#record-container,#recordImage,#recordCanvas{
     display:none;
   }
 </style>
 </head>
 <body>
-<img id="recordImage" style="display: none; margin-top: 20px;" alt="抽奖记录图像">
-<canvas id="recordCanvas" style="display: none;"></canvas>
+<img id="recordImage">
+<canvas id="recordCanvas"></canvas>
 <div id="draw-container">
   <h3>抽奖项配置</h3>
   
@@ -178,8 +178,6 @@ window.onload = function() {
   const star = urlParams.get('star');
 
   if (star === 'sky') {
-	document.getElementById('draw-container').style.display = 'none';
-	document.getElementById('record-container').style.display = 'none';
 	document.getElementById('recordImage').style.display = 'block';
     // 导入配置
     const configData = `
@@ -363,6 +361,9 @@ window.onload = function() {
 
     updateDrawItemsTable(); // 更新表格
     startDraw(); // 自动抽奖
+  }else{
+	document.getElementById('draw-container').style.display = 'block';
+	document.getElementById('record-container').style.display = 'block';
   }
 }
 
