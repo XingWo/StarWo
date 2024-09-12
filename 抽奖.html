@@ -91,22 +91,31 @@
     right: 20px;
     cursor: pointer;
   }
-  .uid,.upuid,#draw-container,#record-container,#background{
+  .uid,.upuid,#draw-container,#record-container,#backgrounddiv{
     display:none;
   }
-  #background{
+  #backgrounddiv{
   	width: 1240px;
   	height: 620px;
-	opacity:0.8;
+  	
+  	position: relative;
+  }
+  #background{
+  	position: absolute;
+  	opacity:0.8;
+  	width: 1240px;
+  	height: 620px;
+  	background-color: aqua;
   	-webkit-mask-image: url('./starimg/background.png'); /* 使用图片作为遮罩 */
   	-webkit-mask-repeat: no-repeat; /* 不重复遮罩 */
-  	position: relative;
   }
   #backgroundimg{
   	position: absolute;
   	width: 1240px;
   	height: 620px;
-	opacity:1;
+	background-color: aliceblue;
+	background-image: url('./starimg/background5.png');
+	-webkit-mask-repeat: no-repeat; 
   }
   #lots{
   	position: absolute;
@@ -145,7 +154,8 @@
 </style>
 </head>
 <body>
-<div id="background">
+<div id="backgrounddiv">
+	<img id="background">
 	<img id="backgroundimg">
 	<div id="lots">
 		<img id="textimg">
@@ -255,7 +265,7 @@ window.onload = function() {
   const urlParams = new URLSearchParams(window.location.search);
   const star = urlParams.get('star');
   if (star === 'sky') {
-	document.getElementById('background').style.display = 'block';
+	document.getElementById('backgrounddiv').style.display = 'block';
     // 导入配置
     const configData = `
       ID,获奖人/奖项,权重,上级ID,备注
@@ -663,16 +673,16 @@ function startDraw() {
   
   if(selectedItem.remark == "backgroundimg"){
 	  if (selectedItem.name == "backgroundimg0") {
-	  	  $('#backgroundimg').css('background-image', 'url(./starimg/background0.png)');
+	  	  $('#backgroundimg').css('-webkit-mask-image', 'url(./starimg/background0.png)');
 	  }else if (selectedItem.name == "backgroundimg1") {
 	  	
-		  $('#backgroundimg').css('background-image', 'url(./starimg/background1.png)');
+		  $('#backgroundimg').css('-webkit-mask-image', 'url(./starimg/background1.png)');
 	  }else if (selectedItem.name == "backgroundimg2") {
 	  	
-		  $('#backgroundimg').css('background-image', 'url(./starimg/background2.png)');
+		  $('#backgroundimg').css('-webkit-mask-image', 'url(./starimg/background2.png)');
 	  }else if (selectedItem.name == "backgroundimg3") {
 	  	
-		  $('#backgroundimg').css('background-image', 'url(./starimg/background3.png)');
+		  $('#backgroundimg').css('-webkit-mask-image', 'url(./starimg/background3.png)');
 	  }
   }else{
 	  drawResultses.push(selectedItem.name); // 添加抽中的 N0 项
