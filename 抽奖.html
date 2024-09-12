@@ -269,10 +269,10 @@ window.onload = function() {
     // 导入配置
     const configData = `
       ID,获奖人/奖项,权重,上级ID,备注
-	  0,backgroundimg0,1,,backgroundimg
-	  0,backgroundimg1,1,,backgroundimg
-	  0,backgroundimg2,1,,backgroundimg
-	  0,backgroundimg3,1,,backgroundimg
+	  0,backgroundimg0,53,,backgroundimg
+	  0,backgroundimg1,53,,backgroundimg
+	  0,backgroundimg2,53,,backgroundimg
+	  9,backgroundimg3,8,,backgroundimg
       1,大吉,24,0,textimg
       11,结缘物：心火,1,1,dordas
       11,结缘物：水母,1,1,dordas
@@ -423,7 +423,7 @@ window.onload = function() {
       55555,忌：一意孤行,1,5555,entry
       55555,忌：抗拒改变,1,5555,entry
       ,,,,
-      6,奇,8,0,textimg
+      6,奇,8,9,textimg
       66,结缘物：螃蟹,1,6,dordas
       66,结缘物：冥龙,1,6,dordas
       666,缘彩：雷雨垂,1,66,dordascolor
@@ -741,92 +741,57 @@ function startDraw() {
 	}else if(selectedSubItem.remark == "dordascolor"){
 		//设置缘彩
 		$('#dordas').append('<br>'+selectedSubItem.name);
-		if (selectedSubItem.name == "缘彩：丹色") {
-		    $('#background').css('background-color', '#FF5555');
-		} else if (selectedSubItem.name == "缘彩：杏黄") {
-		    $('#background').css('background-color', '#FFCC66');
-		} else if (selectedSubItem.name == "缘彩：琥珀黄") {
-		    $('#background').css('background-color', '#FFBF00');
-		} else if (selectedSubItem.name == "缘彩：麦苗绿") {
-		    $('#background').css('background-color', '#7EC850');
-		} else if (selectedSubItem.name == "缘彩：宫殿绿") {
-		    $('#background').css('background-color', '#008080');
-		} else if (selectedSubItem.name == "缘彩：星蓝") {
-		    $('#background').css('background-color', '#0066CC');
-		} else if (selectedSubItem.name == "缘彩：雪青") {
-		    $('#background').css('background-color', '#CCCCFF');
-		} else if (selectedSubItem.name == "缘彩：桃夭") {
-		    $('#background').css('background-color', '#FFB6C1');
-		} else if (selectedSubItem.name == "缘彩：霁青") {
-		    $('#background').css('background-color', '#87CEFA');
-		} else if (selectedSubItem.name == "缘彩：梧枝绿") {
-		    $('#background').css('background-color', '#008000');
-		} else if (selectedSubItem.name == "缘彩：酡颜") {
-		    $('#background').css('background-color', '#FF69B4');
-		} else if (selectedSubItem.name == "缘彩：明黄") {
-		    $('#background').css('background-color', '#FFFF00');
-		} else if (selectedSubItem.name == "缘彩：梅子青") {
-		    $('#background').css('background-color', '#708090');
-		} else if (selectedSubItem.name == "缘彩：田园绿") {
-		    $('#background').css('background-color', '#556B2F');
-		} else if (selectedSubItem.name == "缘彩：藤萝紫") {
-		    $('#background').css('background-color', '#8A2BE2');
-		} else if (selectedSubItem.name == "缘彩：藤黄") {
-		    $('#background').css('background-color', '#FFD700');
-		} else if (selectedSubItem.name == "缘彩：霞光红") {
-		    $('#background').css('background-color', '#FF6347');
-		} else if (selectedSubItem.name == "缘彩：鸢尾蓝") {
-		    $('#background').css('background-color', '#4B0082');
-		} else if (selectedSubItem.name == "缘彩：钴蓝") {
-		    $('#background').css('background-color', '#0047AB');
-		} else if (selectedSubItem.name == "缘彩：栀子黄") {
-		    $('#background').css('background-color', '#FFFFE0');
-		} else if (selectedSubItem.name == "缘彩：蛙绿") {
-		    $('#background').css('background-color', '#00FF00');
-		} else if (selectedSubItem.name == "缘彩：石绿") {
-		    $('#background').css('background-color', '#008080');
-		} else if (selectedSubItem.name == "缘彩：竹月") {
-		    $('#background').css('background-color', '#F0FFF0');
-		} else if (selectedSubItem.name == "缘彩：棠色") {
-		    $('#background').css('background-color', '#FFC0CB');
-		} else if (selectedSubItem.name == "缘彩：桃红") {
-		    $('#background').css('background-color', '#FF69B4');
-		} else if (selectedSubItem.name == "缘彩：蔚蓝") {
-		    $('#background').css('background-color', '#00BFFF');
-		} else if (selectedSubItem.name == "缘彩：蝶翅蓝") {
-		    $('#background').css('background-color', '#00CED1');
-		} else if (selectedSubItem.name == "缘彩：青矾绿") {
-		    $('#background').css('background-color', '#00FF7F');
-		} else if (selectedSubItem.name == "缘彩：明茶褐") {
-		    $('#background').css('background-color', '#8B4513');
-		} else if (selectedSubItem.name == "缘彩：丁香褐") {
-		    $('#background').css('background-color', '#996515');
-		} else if (selectedSubItem.name == "缘彩：春梅红") {
-		    $('#background').css('background-color', '#FF1493');
-		} else if (selectedSubItem.name == "缘彩：金盏黄") {
-		    $('#background').css('background-color', '#FFD700');
-		} else if (selectedSubItem.name == "缘彩：天水碧") {
-		    $('#background').css('background-color', '#00CED1');
-		} else if (selectedSubItem.name == "缘彩：景泰蓝") {
-		    $('#background').css('background-color', '#0000FF');
-		} else if (selectedSubItem.name == "缘彩：银朱") {
-		    $('#background').css('background-color', '#FF0000');
-		} else if (selectedSubItem.name == "缘彩：苕荣") {
-		    $('#background').css('background-color', '#FFE4B5');
-		} else if (selectedSubItem.name == "缘彩：酡红") {
-		    $('#background').css('background-color', '#FF00FF');
-		} else if (selectedSubItem.name == "缘彩：赤金") {
-		    $('#background').css('background-color', '#FFD700');
-		} else if (selectedSubItem.name == "缘彩：鹅掌黄") {
-		    $('#background').css('background-color', '#FFFFE0');
-		} else if (selectedSubItem.name == "缘彩：松霜绿") {
-		    $('#background').css('background-color', '#008000');
-		} else if (selectedSubItem.name == "缘彩：螺钿紫") {
-		    $('#background').css('background-color', '#800080');
-		} else if (selectedSubItem.name == "缘彩：品蓝") {
-		    $('#background').css('background-color', '#000080');
+		const colors = {
+		    "缘彩：丹色": "#fb5731",
+		    "缘彩：杏黄": "#ffa40b",
+		    "缘彩：琥珀黄": "#ffcd02",
+		    "缘彩：麦苗绿": "#62dba1",
+		    "缘彩：宫殿绿": "#21a95e",
+		    "缘彩：星蓝": "#a9cfec",
+		    "缘彩：雪青": "#9f94c2",
+		    "缘彩：桃夭": "#ffc7cd",
+		    "缘彩：霁青": "#71d6ed",
+		    "缘彩：梧枝绿": "#7fc8b2",
+		    "缘彩：酡颜": "#ff9d72",
+		    "缘彩：明黄": "#ffdc01",
+		    "缘彩：梅子青": "#c5d7bc",
+		    "缘彩：田园绿": "#7ad8a6",
+		    "缘彩：藤萝紫": "#7c729b",
+		    "缘彩：藤黄": "#ffe108",
+		    "缘彩：霞光红": "#ff8aa1",
+		    "缘彩：鸢尾蓝": "#0ea1d6",
+		    "缘彩：钴蓝": "#18abdc",
+		    "缘彩：栀子黄": "#ffd005",
+		    "缘彩：蛙绿": "#4fd69e",
+		    "缘彩：石绿": "#62e1de",
+		    "缘彩：竹月": "#7d99a9",
+		    "缘彩：棟色": "#b8abe5",
+		    "缘彩：桃红": "#ffc3b4",
+		    "缘彩：蔚蓝": "#28d1e9",
+		    "缘彩：蝶翅蓝": "#5994c0",
+		    "缘彩：青矾绿": "#2db691",
+		    "缘彩：明茶褐": "#bf9c7d",
+		    "缘彩：丁香褐": "#f0ccea",
+		    "缘彩：春梅红": "#ff9b9e",
+		    "缘彩：金盏黄": "#ffd600",
+		    "缘彩：天水碧": "#69c2cc",
+		    "缘彩：景泰蓝": "#2588d5",
+		    "缘彩：银朱": "#ed4d48",
+		    "缘彩：苕荣": "#ff823e",
+		    "缘彩：酡红": "#ee3626",
+		    "缘彩：赤金": "#ffd547",
+		    "缘彩：鹅掌黄": "#ffcb25",
+		    "缘彩：松霜绿": "#9cc6a9",
+		    "缘彩：螺钿紫": "#8b8cba",
+		    "缘彩：品蓝": "#2c88cf",
+		    "缘彩：豇豆红": "#ffa8b9",
+		    "缘彩：雷雨垂": "#9b9b98",
+		    "缘彩：缁色": "#7c696c"
+		};
+		const selectedColor = colors[selectedSubItem.name];
+		if (selectedColor) {
+		    $('#background').css('background-color', selectedColor);
 		}
-
 	}else if(selectedSubItem.remark == "blessing"){
 		//设置祝福语
 		$('#blessing').html(selectedSubItem.name);
