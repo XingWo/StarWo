@@ -265,6 +265,7 @@ window.onload = function() {
   const urlParams = new URLSearchParams(window.location.search);
   const star = urlParams.get('star');
   if (star === 'sky') {
+	$('title').text('star祈福签');
 	document.getElementById('backgrounddiv').style.display = 'block';
     // 导入配置
     const configData = `
