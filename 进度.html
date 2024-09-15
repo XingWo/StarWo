@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>积分进度</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<h1>积分进度</h1>
+
+<label for="currentLevel">下一级:</label>
+<select id="currentLevel">
+    <!-- 这里会动态生成选项 -->
+</select>
+
+<label for="targetLevel">目标等级:</label>
+<select id="targetLevel">
+    <!-- 这里会动态生成选项 -->
+</select>
+
+<label for="pointsNeeded">距下一级还需积分:</label>
+<input type="number" id="pointsNeeded" placeholder="输入积分" />
+
+<label for="vipFans">大会员粉丝数量:</label>
+<input type="number" id="vipFans" placeholder="输入数量" />
+
+<label for="normalFans">普通用户粉丝数量:</label>
+<input type="number" id="normalFans" placeholder="输入数量" />
+
+<button onclick="calculateDays()">计算</button>
+
+<h2 id="result"></h2>
+<h3 id="dailyPoints"></h3>
+<h3 id="totalPointsNeeded"></h3>
+
+<script>
+    const levels = [
+        { level: "UP 1", points: 0 },
+        { level: "UP 2", points: 50 },
+        { level: "UP 3", points: 200 },
+        { level: "UP 4", points: 470 },
+        { level: "UP 5", points: 920 },
+        { level: "UP 6", points: 2100 },
+        { level: "UP 7", points: 4060 },
+        { level: "UP 8", points: 7160 },
+        { level: "UP 9", points: 11760 },
+        { level: "UP 10", points: 18060 },
+        { level: "UP 11", points: 27160 },
+        { level: "UP 12", points: 39610 },
+        { level: "UP 13", points: 56410 },
+        { level: "UP 14", points: 78810 },
+        { level: "UP 15", points: 109810 },
+        { level: "UP 16", points: 154810 },
+        { level: "UP 17", points: 226810 },
+        { level: "UP 18", points: 319810 },
+        { level: "UP 19", points: 442810 },
+        { level: "UP 20", points: 602810 },
+        { level: "UP 21", points: 816810 },
+        { level: "UP 22", points: 1138810 },
+        { level: "UP 23", points: 1594810 },
+        { level: "UP 24", points: 2214810 },
+        { level: "UP 25", points: 3004810 },
+        { level: "UP 26", points: 3984810 },
+        { level: "UP 27", points: 5229810 },
+        { level: "UP 28", points: 6909810 },
+        { level: "UP 29", points: 9013810 },
+        { level: "UP 30", points: 11883810 },
+        { level: "UP 31", points: 15613810 },
+        { level: "UP 32", points: 20613810 },
+        { level: "UP 33", points: 27313810 },
+        { level: "UP 34", points: 36413810 },
+        { level: "UP 35", points: 47813810 },
+        { level: "UP 36", points: 62013810 },
+        { level: "UP 37", points: 79513810 },
+        { level: "UP 38", points: 99513810 },
+        { level: "UP 39", points: 122013810 },
+        { level: "UP 40", points: 147013810 }
+    ];
+
+    const vipPointsPerDay = 252;
+    const normalPointsPerDay = 114.5;
+
+    function populateLevels() {
+        const currentLevelSelect = document.getElementById('currentLevel');
+        const targetLevelSelect = document.getElementById('targetLevel');
+
+        levels.forEach(level => {
+            const optionCurrent = document.createElement('option');
+            optionCurrent.value = level.points;
+            optionCurrent.textContent = level.level;
+            currentLevelSelect.appendChild(optionCurrent);
+
+            const optionTarget = document.createElement('option');
+            optionTarget.value = level.points;
+            optionTarget.textContent = level.level;
+            targetLevelSelect.appendChild(optionTarget);
+        });
+    }
+
+    function calculateDays() {
+        const currentPoints = parseInt(document.getElementById('currentLevel').value);
+        const targetPoints = parseInt(document.getElementById('targetLevel').value);
+        const pointsNeeded = parseInt(document.getElementById('pointsNeeded').value);
+        const vipFans = parseInt(document.getElementById('vipFans').value);
+        const normalFans = parseInt(document.getElementById('normalFans').value);
+
+        const totalPointsPerDay = (vipFans * vipPointsPerDay) + (normalFans * normalPointsPerDay);
+        const totalPointsNeeded = pointsNeeded + (targetPoints - currentPoints);
+
+        const daysNeeded = Math.ceil(totalPointsNeeded / totalPointsPerDay);
+        document.getElementById('result').textContent = `还需要 ${daysNeeded} 天。`;
+        document.getElementById('dailyPoints').textContent = `每天可以获得的总积分: ${totalPointsPerDay} 积分。`;
+        document.getElementById('totalPointsNeeded').textContent = `达到目标等级所需的总积分: ${totalPointsNeeded} 积分。`;
+    }
+
+    window.onload = populateLevels;
+</script>
+
+</body>
+</html>
