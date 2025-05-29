@@ -1,0 +1,152 @@
+*{
+	padding: 0%;
+	margin: 0%;
+}
+a,p,img,div{
+	user-select: none;
+}
+body{
+	overflow: hidden;
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap:wrap-reverse;
+}
+
+.shadiao{
+	width: 120vh;
+	height: 0vh;
+}
+p{
+	font-size: 1.5vh;
+	color: #b4aaa1;
+}
+
+.page{
+	width: 120vh;
+	height: 60vh;
+	display: flex;
+	justify-content: space-between;
+}
+.text1{
+	width: 310px;
+	height: 415px;
+	background: url(../img/sprite.png);
+	background-position: -270px 0;
+}
+.text2{
+	width: 270px;
+	height: 415px;
+	background: url(../img/sprite.png);
+	background-position: 0 0;
+}
+.text3{
+	width: 280px;
+	height: 415px;
+	background: url(../img/sprite.png);
+	background-position: -585px 0;
+	
+}
+.text5{
+	width: 295px;
+	height: 408px;
+	background: url(../img/sprite.png);
+	background-position: 0 -420px;
+}
+
+.imgs{
+	width: 105vh;
+	height: 60vh;
+	display: flex;
+	align-items: center;
+	justify-content:space-around;
+}
+
+.img{
+	width: 60.0vh;
+	height: 60.0vh;
+}
+.img img{
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.button{
+	width: 12vh;
+	height: 60vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.btn{
+	width: 12vh;
+	height: 12vh;
+	cursor: pointer;
+}
+.btn0{
+	background: url(../img/t1.png);
+	background-size:100%;
+}
+.btn0s{
+	background: url(../img/t1_on.png);
+	background-size:100%;
+}
+.btn0:hover{
+	background: url(../img/t1_on.png);
+	background-size:100%;
+}
+
+.btn3{
+	background: url(../img/t2.png);
+	background-size:100%;
+}
+.btn3s{
+	background: url(../img/t2_on.png);
+	background-size:100%;
+}
+.btn3:hover{
+	background: url(../img/t2_on.png);
+	background-size:100%;
+}
+
+.btn2{
+	background: url(../img/t3.png);
+	background-size:100%;
+}
+.btn2s{
+	background: url(../img/t3_on.png);
+	background-size:100%;
+}
+.btn2:hover{
+	background: url(../img/t3_on.png);
+	background-size:100%;
+}
+
+.btn1{
+	background: url(../img/t4.png);
+	background-size:100%;
+}
+.btn1s{
+	background: url(../img/t4_on.png);
+	background-size:100%;
+}
+.btn1:hover{
+	background: url(../img/t4_on.png);
+	background-size:100%;
+}
+
+#a0{
+	display:block;
+}
+#a2{
+	display:none;
+}
+#a3{
+	display:none;
+}
+#a1{
+	display:none;
+}

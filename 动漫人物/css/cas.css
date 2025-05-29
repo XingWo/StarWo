@@ -1,0 +1,92 @@
+*{
+	padding: 0%;
+	margin: 0%;
+}
+
+body{
+	display: flex;
+	justify-content: center;
+}
+a,p,img,div{
+	user-select: none;
+}
+.renwu{
+	margin-top: 20vh;
+	margin-left: 1%;
+	border-radius: 3vh;
+	box-shadow: 1.5vh .5vh 5vh #888888;
+	width: 30vh;
+	height: 45vh;
+	overflow: hidden;
+	position: relative;
+}
+
+.xian{
+	width: 26vh;
+	height: .1vh;
+	background-image: linear-gradient(to right,#00ffff,#aaaaff);
+	margin: auto;
+}
+
+ul{
+	color: transparent;
+	background-image: linear-gradient(to right,#00ffff,#aaaaff);
+	-webkit-background-clip: text;
+	font-family:cursive;
+	transition:all 0.6s;
+}
+
+p{
+	font-size: 1.8vh;
+	text-indent:2em;
+}
+
+li{
+	font-size: 4.6vh;
+	text-align:center;
+}
+
+a{
+	font-size: 3vh;
+}
+
+.renwu:hover img{
+	border-radius: 10vh;
+	width: 15vh;
+	height: 15vh; 
+	margin-top: 2.5vh;
+	margin-left: 7.5vh;
+	background-size: 100% 100%;
+}
+
+.renwu:hover{
+	background:rgba(0,0,0,0.2);
+}
+
+img{
+	transition:all 0.8s;
+}
+
+#hre{
+	font-size: 1.8vh;
+	text-decoration: none;
+	box-shadow: .3vh .3vh 2vh #888888;
+	border-radius: .5vh;
+}
+
+#uls{
+	position:absolute;
+	top:38vh;
+	-webkit-background-clip: text;
+}
+
+.renwu:hover #uls{
+	top: 18vh;
+}
+
+#hre:active{
+	color: transparent;
+	background-image: linear-gradient(to right,#00ffff,#aaaaff);
+	-webkit-background-clip: text;
+	box-shadow: .2vh .2vh .8vh #888888;
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>加载球</title>
+		<style>
+			a,p,img,div{
+				user-select: none;
+			}
+		    body{
+		        display: flex;
+		        justify-content: center;
+		    }
+		    .auto{
+		        position: relative;
+		        top: 18vh;
+		        width: 55vh;
+		        height: 55vh;
+		        border-radius: 50%;
+		        transition: .4s;
+		        border: 0.8vh solid transparent;
+		        border-top-color: #aaafff;
+		        animation: move 3s infinite linear;
+		    }
+		    .auto::before{
+		        content: '';
+		        position: absolute;
+		        top: 1vh;
+		        left: 1vh;
+		        right: 1vh;
+		        bottom: 1vh;
+		        border-radius: 50%;
+		        border: 0.8vh solid transparent;
+		        border-top-color: #55aaff;
+		        animation: move 2s infinite linear;
+		    }
+		    .auto::after{
+		        content: '';
+		        position: absolute;
+		        top: 2.3vh;
+		        left: 2.3vh;
+		        right: 2.3vh;
+		        bottom: 2.3vh;
+		        border-radius: 50%;
+		        border: 0.8vh solid transparent;
+		        border-top-color: #00ffff;
+		        animation: move 1s infinite linear;
+		    }
+		    @keyframes move{
+		        0%{
+		            transform: rotateZ(0deg);
+		        }
+		        100%{
+		            transform: rotateZ(360deg);
+		        }
+		    }
+		    .auto:hover{
+		        background-color: rgba(86, 133, 165, 0.2);
+		    }
+		</style>
+	</head>
+	<body>
+		<div class="auto"></div>
+	</body>
+</html>

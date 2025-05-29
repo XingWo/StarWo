@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star数字序列生成器</title>
+    <style>
+	    h1,label,input,textarea,button{
+	    	user-select: none;
+	    }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label, input, textarea {
+            display: block;
+            margin: 10px 0;
+        }
+        #result {
+            margin-top: 20px;
+            white-space: pre-wrap; /* 保证长文本换行 */
+            word-wrap: break-word; /* 保证长单词换行 */
+        }
+        h1{
+			color: transparent;
+			background-image: linear-gradient(-45deg,#00ffff,transparent,transparent,#00ffff,transparent,transparent,#00ffff,transparent,transparent,#00ffff,transparent,transparent,#00ffff,transparent,transparent,#00ffff,transparent,transparent,#00ffff,transparent,transparent,#00ffff,transparent,transparent);
+			-webkit-background-clip: text;
+			animation: backgroundgif 32s infinite;
+			background-size: 1600%;
+		}
+		@keyframes backgroundgif{/* 移动背景画布位置来完成动画 */
+			0%{
+				background-position: 0% 0%;
+			}
+			100%{
+				background-position: 100% 100%;
+			}
+		}
+		#settings {
+	            display: none;
+	        }
+    </style>
+</head>
+<body>
+<div>
+    <h1>Star数字序列生成器</h1>
+    <label for="start">初始值:</label>
+    <input type="text" id="start" name="start" autofocus>
+    
+    <label for="end">结束值:</label>
+    <input type="text" id="end" name="end">
+
+	<div id="settings">
+	    <label for="separator">间隔字符:</label>
+	    <textarea id="separator" name="separator" rows="3" placeholder="默认为，" style="width: 170px; height: 18px;">，</textarea>
+	    
+	    <label for="maxDifference">最大差值:</label>
+	    <input type="number" id="maxDifference" name="maxDifference" value="99">
+	    
+	    <label for="step">数字序列的间隔:</label>
+	    <input type="number" id="step" name="step" value="1">
+	    
+	    <label for="fullSequence">完整序列数字:</label>
+	    <input type="checkbox" id="fullSequence" name="fullSequence">
+	</div>
+
+	<button id="settingsButton" onclick="toggleSettings()">设置</button>
+    
+    <button onclick="generateSequence()">生成序列</button>
+</div>
+    <div id="result"></div>
+    
+    <script>
+        // 默认焦点在初始值输入框
+        document.getElementById('start').focus();
+
+        let sequenceGenerated = false; // 标记序列是否已生成
+
+        // 从本地存储获取缓存值
+        window.onload = function() {
+            const cachedSeparator = localStorage.getItem('separator') || '，';
+            const cachedStep = localStorage.getItem('step') || 1;
+            const cachedMaxDifference = localStorage.getItem('maxDifference') || 99;
+            const cachedFullSequence = localStorage.getItem('fullSequence') === 'true';
+
+            document.getElementById('separator').value = cachedSeparator;
+            document.getElementById('maxDifference').value = cachedMaxDifference;
+            document.getElementById('step').value = cachedStep;
+            document.getElementById('fullSequence').checked = cachedFullSequence;
+        };
+
+        // 监听键盘事件
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                const startInput = document.getElementById('start');
+                const endInput = document.getElementById('end');
+                
+                // 如果初始值为空，焦点切换至初始值输入框
+                if (!startInput.value) {
+                    startInput.focus();
+                } 
+                // 如果结束值为空，焦点切换至结束值输入框
+                else if (!endInput.value) {
+                    endInput.focus();
+                } 
+                // 如果初始值和结束值都存在，生成序列
+                else {
+                    generateSequence();
+                }
+            }
+        });
+
+        function toggleSettings() {
+            const settingsDiv = document.getElementById('settings');
+            const settingsButton = document.getElementById('settingsButton');
+            if (settingsDiv.style.display === 'block') {
+                settingsDiv.style.display = 'none';
+                settingsButton.textContent = '设置';
+		saveSettings();
+            } else {
+                settingsDiv.style.display = 'block';
+                settingsButton.textContent = '保存';
+            }
+        }
+
+        function saveSettings() {
+            const separator = document.getElementById('separator').value;
+            const maxDifference = parseInt(document.getElementById('maxDifference').value.trim()) || 99;
+            const step = parseInt(document.getElementById('step').value) || 1;
+            const fullSequence = document.getElementById('fullSequence').checked;
+
+            localStorage.setItem('separator', separator);
+            localStorage.setItem('maxDifference', maxDifference);
+            localStorage.setItem('step', step);
+            localStorage.setItem('fullSequence', fullSequence);
+        }
+
+        function generateSequence() {
+            let startInput = document.getElementById('start').value.trim().replace(/\D/g, '');
+            let endInput = document.getElementById('end').value.trim().replace(/\D/g, '');
+            let separator = document.getElementById('separator').value || '，';
+            const maxDifference = parseInt(document.getElementById('maxDifference').value.trim()) || 99;
+            const step = parseInt(document.getElementById('step').value) || 1;
+            
+            // 缓存间隔字符、最大差值、间隔值和完整序列状态
+            saveSettings();
+
+            const start = parseInt(startInput, 10);
+            const end = parseInt(endInput, 10);
+            
+            if (isNaN(start) || isNaN(end) || isNaN(maxDifference) || isNaN(step)) {
+                alert('请输入有效的初始值、结束值、最大差值和间隔值');
+                return;
+            }
+            
+            if (Math.abs(end - start) > maxDifference) {
+                alert('最大差值超过设定值，请检查输入值');
+                return;
+            }
+            
+            let result = '';
+            const maxLength = Math.max(startInput.length, endInput.length); // 计算最大位数
+
+            // 将 \n 替换为实际的换行符
+            separator = separator.replace(/\\n/g, '\n');
+
+            if (start < end) {
+                // 正序生成
+                for (let i = start; i <= end; i += step) {
+                    result += formatNumber(i, maxLength) + (i + step <= end ? separator : '');
+                }
+            } else {
+                // 倒序生成
+                for (let i = start; i >= end; i -= step) {
+                    result += formatNumber(i, maxLength) + (i - step >= end ? separator : '');
+                }
+            }
+            
+            document.getElementById('result').textContent = result;
+
+            // 使用 Promise 确保在生成序列后再复制
+            new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(result);
+                }, 300); // 300 毫秒延迟，确保代码在下一次事件循环中执行
+            }).then((result) => {
+		result = document.getElementById('result').textContent;
+                navigator.clipboard.writeText(result).then(() => {
+                    alert('序列已复制到剪切板！');
+                }).catch(err => {
+                    console.log('复制失败:', err);
+                });
+            });
+
+            sequenceGenerated = true; // 设置序列已生成标记
+        }
+
+        function formatNumber(num, maxLength) {
+            const fullSequence = document.getElementById('fullSequence').checked;
+            return fullSequence ? num.toString().padStart(maxLength, '0') : num.toString().replace(/^0+/, ''); // 去掉前导零
+        }
+
+        // 点击输入框时清空值（仅在首次点击时）
+        document.getElementById('start').addEventListener('click', function() {
+            if (sequenceGenerated) {
+                this.value = '';
+                document.getElementById('end').value = '';
+                sequenceGenerated = false; // 重置标记
+            }
+        });
+
+        document.getElementById('end').addEventListener('click', function() {
+            if (sequenceGenerated) {
+                this.value = '';
+                document.getElementById('start').value = '';
+                sequenceGenerated = false; // 重置标记
+            }
+        });
+    </script>
+</body>
+</html>

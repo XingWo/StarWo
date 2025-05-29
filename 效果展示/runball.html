@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>移动方块</title>
+		<script type="text/javascript" src="../js/jquery.js"></script>
+		<style>
+			a,p,img,div{
+				user-select: none;
+			}
+			@font-face {
+				font-family:"pingfang";
+				src: url("../海军首页/css/font0.ttf");
+			}
+			*{
+				padding: 0;
+				margin: 0;
+				font-family: "pingfang";
+			}
+			.z{
+				margin-left: 5vh;
+				height: 0;
+			}
+			.a,.b,.c,.d{
+				margin: 1.6vh 1.6vh;
+				width: 3vh;
+				height: 3vh;
+				background-color: #aaaaff;
+				border: 0.1vh solid rgba(0, 0, 0, .1);
+				transition: 1.5s;
+				border: 0.3vh outset rgba(0, 10, 0, .1);
+				border-radius: 2vh;
+				padding: 1vh;
+				cursor: wait;
+			}
+			.z:before{
+				content: '⫷点我们看看';
+				display: flex;
+				margin-left: 5.6vh;
+				color: #00ffff;
+			}
+			.showa{
+				position: fixed;left: 18%;top: 18%;
+			}
+			.showb{
+				position: fixed;left: 16%;bottom: 16%;
+			}
+			.showc{
+				position: fixed;right: 16%;top: 16%;
+			}
+			.showd{
+				position: fixed;right: 18%;bottom: 18%;
+			}
+			.show{
+				margin: 2vh 2vh;
+				width: 5vh;
+				height: 5vh;
+				background-color: #00ffff;
+				border: 0px solid rgba(0, 0, 0, .1);
+				transition: 3s;
+				border: 0.6vh outset rgba(0, 10, 0, .1);
+			}
+			.a:hover,.b:hover,.c:hover,.d:hover {
+				transform: rotate(360deg);/* 旋转一下 */
+				border-radius: 50%;/* 变成圆形 */
+				transition: .9s;
+				height: 5vh;
+				width: 5vh;
+				background-color:#00ffff;
+				border: 1vh outset rgba(0, 10, 0, .1);
+			}
+			
+			.a:hover~.show{
+				background-color: #aaaaff;
+				box-shadow: 0 0 1.5vh #fafafa;
+				transition: 1s;
+				border-radius: 20%;
+			}
+			.a:hover~.showa{
+				top: 80%;
+			}
+			.a:hover~.showb{
+				left: 80%;
+			}
+			.a:hover~.showc{
+				right: 80%;
+			}
+			.a:hover~.showd{
+				bottom: 80%;
+			}
+			
+			.b:hover~.show{
+				background-color: #aaaaff;
+				box-shadow: 0 0 3vh #55ffff;
+				transition: 1.3s;
+				border-radius: 30%;
+			}
+			.b:hover~.showa{
+				top: 80%;
+				left: 80%;
+			}
+			.b:hover~.showb{
+				left: 80%;
+				bottom: 80%;
+			}
+			.b:hover~.showc{
+				right: 80%;
+				top: 80%;
+			}
+			.b:hover~.showd{
+				bottom: 80%;
+				right: 80%;
+			}
+			
+			.c:hover~.show{
+				background-color: #aaaaff;
+				box-shadow: 0 0 3vh #78e08f;
+				transition: .9s;
+				border-radius: 26%;
+			}
+			.c:hover~.showa{
+				top: 80%;
+			}
+			.c:hover~.showb{
+				bottom: 80%;
+			}
+			.c:hover~.showc{
+				top: 80%;
+			}
+			.c:hover~.showd{
+				bottom: 80%;
+			}
+			
+			.d:hover~.show{
+				background-color: #aaaaff;
+				box-shadow: 0 0 3vh #ff557f;
+				transition: 1.3s;
+				border-radius: 28%;
+			}
+			.d:hover~.showa{
+				left: 80%;
+			}
+			.d:hover~.showb{
+				left: 80%;
+			}
+			.d:hover~.showc{
+				top: 80%;
+				right: 80%;
+			}
+			.d:hover~.showd{
+				bottom: 80%;
+				right: 80%;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="z"></div>
+		<div class="v a"></div>
+		<div class="v b"></div>
+		<div class="v c"></div>
+		<div class="v d"></div>
+		
+		<div class="show showa"></div>
+		<div class="show showb"></div>
+		<div class="show showc"></div>
+		<div class="show showd"></div>
+	</body>
+	<script>
+		$(".v").hover(function(){
+			$(".z").css("display",'none')
+		});
+	</script>
+</html>

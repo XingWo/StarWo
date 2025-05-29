@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>永动摆球</title>
+		<style>
+			a,p,img,div{
+				user-select: none;
+			}
+		    body{
+		        display: flex;
+		        justify-content: center;
+		    }
+		    .auto{
+		        -webkit-box-reflect: below 2vh -webkit-linear-gradient(transparent,transparent 50%,rgba(255,255,255,0.6));        
+			}
+		    .a{
+		        position: relative;
+		        width: 50vh;
+		        height: 50vh;
+		        border: 6vh transparent solid;
+		        border-radius: 50%;
+		        border-bottom-color:#00ffff;
+		        border-right-color: #aaaaff;
+		        transform: rotateZ(45deg);
+		        animation: move 3s infinite alternate ease-in-out;
+		    }
+		    .a1{
+		        position: absolute;
+		        width: 100%;
+		        height: 100%;
+		        animation: a 3s infinite alternate ease-in-out;
+		    }
+		    .a1::before{
+		        content: '';
+		        position: absolute;
+		        bottom: 6.6vh;
+		        left: 6.6vh;
+		        display: block;
+		        width: 8vh;
+		        height: 8vh;
+		        border-radius: 50%;
+		        background-image:linear-gradient(#00ffff,#aaaaff);
+				animation: ball 3s infinite alternate ease-in-out;
+		    }
+		    @keyframes move{
+		         0%{
+		            transform: rotateZ(0);
+		        }
+		        100%{
+		            transform: rotateZ(90deg);
+		        }
+		    }
+		    @keyframes a{
+		         0%{
+		            transform: rotateZ(0);
+		        }
+		        100%{
+		            transform: rotateZ(-180deg);
+		        }
+		    }
+			@keyframes ball{
+			  0% {
+			    transform: rotateZ(0);
+			  }
+			  100% {
+			    transform: rotateZ(360deg);
+			  }
+			}
+		</style>
+	</head>
+	<body>
+		 <div class="auto">
+			<div class="a">
+				<div class="a1"></div>
+			</div>
+		</div>
+	</body>
+</html>
